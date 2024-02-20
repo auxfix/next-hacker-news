@@ -1,0 +1,15 @@
+$header_height: 7rem;
+$white: #fff;
+$shadow_color: rgb(0 0 0 / 20%);
+$grey_text: rgb(0 0 0 / 50%);
+$title_color: #4facfe;
+$normal_text: rgb(0 0 0 / 70%);
+$blue_gradient_start: #4facfe;
+$blue_gradient_end: #00f2fe;
+$header_color: #113740;
+
+@mixin flex_position($justify_content, $align_items) {
+  align-items: $align_items;
+  display: flex;
+  justify-content: $justify_content;
+}
