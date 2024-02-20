@@ -15,6 +15,10 @@ export default function Home() {
         <h4>News 3</h4>
         <p>the worst piece of news</p>
       </li>
+      <li>
+        <h4>News 4</h4>
+        <p>little hope</p>
+      </li>
      </ul>
     </main>
   );
