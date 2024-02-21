@@ -1,4 +1,4 @@
-import styles from './button.module.scss';
+import  './button.scss';
 import useButtonStyle from './hooks/useButtonStyle';
 
 interface ButtonProps {
@@ -6,11 +6,12 @@ interface ButtonProps {
   onClick: () => void;
 }
 
+
 export default function Button(props: ButtonProps) {
   const { children, onClick } = props;
   const [buttonStyle, onButtonDown, onButtonUp] = useButtonStyle([
-    styles.button,
-    styles.buttononpush,
+    'button',
+    'button-on-push',
   ]);
 
   return (

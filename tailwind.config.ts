@@ -7,10 +7,14 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
-      'darkblue': '#113740',
+    extend: {
+      colors: {
+        transparent: 'transparent',
+        current: 'currentColor',
+        'darkblue': '#113740',
+        'bluegradientstart': '#4facfe',
+        'bluegradientend': '#00f2fe'
+      }
     },
   },
   plugins: [],

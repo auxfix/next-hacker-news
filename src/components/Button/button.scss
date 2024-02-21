@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+  .button-common-1 {
+    @apply appearance-none bg-transparent bg-gradient-to-r from-bluegradientstart to-bluegradientend border-0 rounded-xl
+  }
+  .button-common-2 {
+    @apply text-white cursor-pointer inline-block text-base tracking-widest leading-4 px-10 py-4 no-underline uppercase transition-shadow
+  }
+
+  .button-common-hover {
+    @apply hover:bg-gradient-to-r from-bluegradientend to-bluegradientstart
+  }
+  
+  .button-cmn {
+    @apply button-common-1 button-common-2 button-common-hover;
+  }
+
+  .button {
+    @apply button-cmn shadow-xl;
+  }
+  
+  .button-on-push {
+    @apply button-cmn shadow-sm;
+  }
+}
+
