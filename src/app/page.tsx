@@ -1,10 +1,11 @@
 import Header from '@/components/Header';
 import NewsItem from '@/features/news/components/NewsItem';
+import rundom_images from '@/features/news/assets/img/rundom_huckers_images';
 
 const hackerStoryMock =  {
   authorId: 12,
   id: 1,
-  img: 'https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  img: rundom_images[2].src,
   karma: 3,
   num: 3,
   score: 10,
