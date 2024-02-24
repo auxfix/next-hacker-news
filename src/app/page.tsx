@@ -19,9 +19,9 @@ const hackerStoryMock =  {
 export default function Home() {
   const news = new Array(10).fill(hackerStoryMock);
   return (
-    <main className='flex justify-center'>
+    <main>
       <Header />
-      <div className='flex flex-col items-center justify-center w-2/3'>
+      <div className='flex flex-col items-center justify-center'>
         {news.map(newsItem => (
             <NewsItem key={newsItem.id} newsItem={newsItem} />
         ))}
