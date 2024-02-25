@@ -2,6 +2,7 @@ import { getFormattedTimeForNews } from '@/features/news/utils';
 import { HackerStory } from '@/types';
 
 import styles from './newsItem.module.scss';
+import  './newsItem.scss';
 
 interface NewsProps {
   newsItem: HackerStory;
@@ -13,7 +14,7 @@ export default function NewsItem(props: NewsProps) {
   const { monthDateYear, weekDay } = getFormattedTimeForNews(newsItem.time);
 
   return (
-    <div key={newsItem.id} className={styles.container} data-testid="NewsItem">
+    <div key={newsItem.id} className='news-item-container' data-testid="NewsItem">
       <img alt="News cover" className={styles.image} src={newsItem.img} />
       <div className={styles.info}>
         <div className={styles.time}>

@@ -21,7 +21,6 @@ export default function Button(props: ButtonProps) {
       onClick={onClick}
       onMouseDown={onButtonDown}
       onMouseUp={onButtonUp}
-      type="button"
     >
       {children}
     </button>

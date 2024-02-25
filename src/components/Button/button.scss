@@ -8,7 +8,7 @@
     @apply appearance-none bg-transparent bg-gradient-to-r from-bluegradientstart to-bluegradientend border-0 rounded-xl
   }
   .button-common-2 {
-    @apply text-white cursor-pointer inline-block text-base tracking-widest leading-4 px-10 py-4 no-underline uppercase transition-shadow
+    @apply text-white cursor-pointer inline-block text-xl tracking-widest leading-4 px-20 py-6 no-underline uppercase transition-shadow
   }
 
   .button-common-hover {
