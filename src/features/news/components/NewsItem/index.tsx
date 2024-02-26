@@ -15,7 +15,7 @@ export default function NewsItem(props: NewsProps) {
 
   return (
     <div key={newsItem.id} className='news-item-container' data-testid="NewsItem">
-      <img alt="News cover" className={styles.image} src={newsItem.img} />
+      <img alt="News cover" className='news-item-image' src={newsItem.img} />
       <div className={styles.info}>
         <div className={styles.time}>
           <span>{`# ${newsItem.num}`}</span>
