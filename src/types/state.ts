@@ -1,7 +1,5 @@
 import React from 'react';
-import { HackerStory } from 'feature/news/types';
-import { Dispatch } from 'redux';
-import { Variants } from 'styled-minimal/lib/types';
+import { HackerStory } from '@/features/news/types';
 
 import { AlertPosition, Icons } from './common';
 
@@ -11,7 +9,7 @@ export interface AlertData {
   message: React.ReactNode;
   position: AlertPosition;
   timeout: number;
-  variant: Variants;
+  variant: any;
 }
 
 export interface AlertsState {
@@ -28,7 +26,7 @@ export interface RootState {
 }
 
 export interface WithDispatch {
-  dispatch: Dispatch;
+  dispatch: any;
 }
 
 export interface NewsState {
