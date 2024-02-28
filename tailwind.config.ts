@@ -14,7 +14,8 @@ const config: Config = {
         current: 'currentColor',
         'darkblue': '#113740',
         'bluegradientstart': '#4facfe',
-        'bluegradientend': '#00f2fe'
+        'bluegradientend': '#00f2fe',
+        'palegray': '#eee',
       },
     },
   },

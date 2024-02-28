@@ -17,10 +17,10 @@ export default function NewsItem(props: NewsProps) {
     <div key={newsItem.id} className='news-item-container' data-testid="NewsItem">
       <img alt="News cover" className='news-item-image' src={newsItem.img} />
       <div className='w-full'>
-        <div className={styles.time}>
-          <span>{`# ${newsItem.num}`}</span>
-          <span data-testid="day">{weekDay}</span>
-          <span data-testid="monthDateYear">{monthDateYear}</span>
+        <div>
+          <span className='time-span'>{`# ${newsItem.num}`}</span>
+          <span className='time-span' data-testid="day">{weekDay}</span>
+          <span className='time-span' data-testid="monthDateYear">{monthDateYear}</span>
         </div>
         <h1 className={styles.title} data-testid="title">
           {newsItem.title}

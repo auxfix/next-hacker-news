@@ -19,7 +19,7 @@ const hackerStoryMock =  {
 export default function Home() {
   const news = new Array(10).fill(hackerStoryMock);
   return (
-    <main>
+    <main className='bg-palegray'>
       <Header />
       <div className='flex flex-col items-center justify-center'>
         {news.map(newsItem => (

@@ -10,5 +10,8 @@
   .news-item-image {
     @apply rounded-xl block h-80 w-[35rem] object-cover relative -translate-x-28 max-[868px]:w-full max-[868px]:-translate-y-14  max-[868px]:translate-x-0
   }
+  .time-span {
+    @apply text-gray-600 block text-3xl my-[0.5rem] mx-0
+  }
 }
 
