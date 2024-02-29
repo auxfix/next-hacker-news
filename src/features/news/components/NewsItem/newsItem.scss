@@ -13,5 +13,16 @@
   .time-span {
     @apply text-gray-600 block text-3xl my-[0.5rem] mx-0
   }
+  .data-span {
+    @apply text-normaltext text-3xl mb-[3rem]
+  }
+
+  .readmore-1 {
+    @apply bg-transparent bg-gradient-to-r from-bluegradientstart to-bluegradientend rounded-xl text-white inline-block
+  }
+
+  .readmore-2 {
+    @apply text-2xl
+  }
 }
 
