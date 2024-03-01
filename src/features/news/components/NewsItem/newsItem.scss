@@ -22,7 +22,15 @@
   }
 
   .readmore-2 {
-    @apply text-2xl
+    @apply text-2xl tracking-wide mt-[3rem] py-[1.5rem] px-[3rem] no-underline uppercase
+  }
+
+  .readmore-3 {
+    @apply  hover:from-bluegradientend hover:to-bluegradientstart
+  }
+
+  .read-more {
+    @apply readmore-1 readmore-2 readmore-3
   }
 }
 

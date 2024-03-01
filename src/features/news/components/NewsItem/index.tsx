@@ -41,7 +41,7 @@ export default function NewsItem(props: NewsProps) {
         </div>
 
         <a
-          className={styles.readmore}
+          className='read-more'
           data-testid="link"
           href={newsItem.url}
           rel="noreferrer"
