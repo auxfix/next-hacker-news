@@ -16,32 +16,32 @@ export default function NewsItem(props: NewsProps) {
   return (
     <div key={newsItem.id} className='news-item-container' data-testid="NewsItem">
       <img alt="News cover" className='news-item-image' src={newsItem.img} />
-      <div className={styles.info}>
-        <div className={styles.time}>
-          <span>{`# ${newsItem.num}`}</span>
-          <span data-testid="day">{weekDay}</span>
-          <span data-testid="monthDateYear">{monthDateYear}</span>
+      <div className='w-full'>
+        <div>
+          <span className='time-span'>{`# ${newsItem.num}`}</span>
+          <span className='time-span' data-testid="day">{weekDay}</span>
+          <span className='time-span' data-testid="monthDateYear">{monthDateYear}</span>
         </div>
-        <h1 className={styles.title} data-testid="title">
+        <h1 className='text-lightblue text-4xl uppercase mt-[1.5rem] mb-[2rem]' data-testid="title">
           {newsItem.title}
         </h1>
-        <div className={styles.infoblock}>
-          <div className={styles.text}>
-            <span>Story score:</span>
-            <span data-testid="score">{newsItem.score}</span>
+        <div className='border-y-[0.2rem] border-bluegradientstart py-[0.8rem] w-1/2'>
+          <div>
+            <span className='data-span mr-[3rem] font-bold'>Story score:</span>
+            <span className='data-span' data-testid="score">{newsItem.score}</span>
           </div>
-          <div className={styles.text}>
-            <span>Author:</span>
-            <span data-testid="author">{newsItem.authorId}</span>
+          <div>
+            <span className='data-span mr-[3rem] font-bold'>Author:</span>
+            <span className='data-span' data-testid="author">{newsItem.authorId}</span>
           </div>
-          <div className={styles.text}>
-            <span>Author Karma:</span>
-            <span data-testid="karma">{newsItem.karma}</span>
+          <div>
+            <span className='data-span mr-[3rem] font-bold'>Author Karma:</span>
+            <span className='data-span' data-testid="karma">{newsItem.karma}</span>
           </div>
         </div>
 
         <a
-          className={styles.readmore}
+          className='read-more'
           data-testid="link"
           href={newsItem.url}
           rel="noreferrer"

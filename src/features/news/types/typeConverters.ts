@@ -1,5 +1,5 @@
-import { HackerStory, User } from 'feature/news/types';
-import { HackerStoryDTO, UserDTO } from 'feature/news/types/dto';
+import { HackerStory, User } from '@/features/news/types';
+import { HackerStoryDTO, UserDTO } from '@/features/news/types/dto';
 
 export function HackerStory_Dto_to_Internal(dto: HackerStoryDTO): HackerStory {
   return {

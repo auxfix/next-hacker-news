@@ -12,7 +12,7 @@
   }
 
   .button-common-hover {
-    @apply hover:bg-gradient-to-r from-bluegradientend to-bluegradientstart
+    @apply  hover:from-bluegradientend hover:to-bluegradientstart
   }
   
   .button-cmn {

@@ -27,6 +27,7 @@ export default function Home() {
   const news = new Array(10).fill(hackerStoryMock);
 
   return (
+<<<<<<< HEAD
     <main>
       <QueryClientProvider client={queryClient}>
         <Header />
@@ -36,6 +37,15 @@ export default function Home() {
             ))}
           </div>
       </QueryClientProvider>
+=======
+    <main className='bg-palegray'>
+      <Header />
+      <div className='flex flex-col items-center justify-center'>
+        {news.map(newsItem => (
+            <NewsItem key={newsItem.id} newsItem={newsItem} />
+        ))}
+      </div>
+>>>>>>> 246913a4e1c06390ee7f8b7e6a9620872c2c4879
     </main>    
   );
 }
