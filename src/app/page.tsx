@@ -1,3 +1,9 @@
+import React, { useState } from 'react';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+
 import Header from '@/components/Header';
 import NewsItem from '@/features/news/components/NewsItem';
 import rundom_images from '@/features/news/assets/img/rundom_huckers_images';
@@ -17,15 +23,19 @@ const hackerStoryMock =  {
 
 
 export default function Home() {
+  const [queryClient] = useState(() => new QueryClient())
   const news = new Array(10).fill(hackerStoryMock);
+
   return (
     <main>
-      <Header />
-      <div className='flex flex-col items-center justify-center'>
-        {news.map(newsItem => (
-            <NewsItem key={newsItem.id} newsItem={newsItem} />
-        ))}
-      </div>
+      <QueryClientProvider client={queryClient}>
+        <Header />
+          <div className='flex flex-col items-center justify-center'>
+            {news.map(newsItem => (
+                <NewsItem key={newsItem.id} newsItem={newsItem} />
+            ))}
+          </div>
+      </QueryClientProvider>
     </main>    
   );
 }
