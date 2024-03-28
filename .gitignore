@@ -39,3 +39,5 @@ assignment.pdf
 # yarn
 .yarn
 
+.env
+
