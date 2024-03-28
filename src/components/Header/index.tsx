@@ -8,10 +8,11 @@ import { getNewsQuery } from '@/query/queries'
 
 export default function Header() {
   const { refetch } = useQuery<HackerStory[]>({ 
-    queryKey: ['posts'], 
+    queryKey: ['news'], 
     queryFn: getNewsQuery,
-    retryOnMount: false,
-    staleTime: Infinity, 
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   })
   return (
     <header className="inset-x-0 top-0 h-28 bg-darkblue fixed z-50">

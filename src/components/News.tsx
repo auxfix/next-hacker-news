@@ -1,19 +1,40 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import NewsItem from '@/features/news/components/NewsItem';
 import { HackerStory } from '@/types';
 import { getNewsQuery } from '@/query/queries'
+import toast, { Toaster } from 'react-hot-toast';
+import { FaSpinner } from 'react-icons/fa';
 
 export default function News() {
-    const { data: news, isFetching  } = useQuery<HackerStory[]>({ 
-        queryKey: ['posts'], 
+    const { data: news, isRefetching, isLoading} = useQuery<HackerStory[]>({ 
+        queryKey: ['news'], 
         queryFn: getNewsQuery,
-        retryOnMount: false,
         staleTime: Infinity,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
     })
 
-    if (isFetching) {
+    useEffect(() => {
+        if(isRefetching) {
+            toast.loading('Getting latets news for you ...', {
+                icon: <FaSpinner className="animate-spin" />,
+                style: {
+                  borderRadius: '10px',
+                  background: '#333',
+                  color: '#fff',
+                  padding: '20px',
+                  fontSize: '14px',
+                },
+              });
+        } else {
+            toast.remove();
+        }       
+    }, [isRefetching])
+
+    if (isLoading) {
         return (
           <div>
             <h1 className='absolute top-1/2 left-1/2 text-5xl font-bold
@@ -25,11 +46,13 @@ export default function News() {
           </div> 
         );
       }
+
     return (
         <div className='flex flex-col items-center justify-center'>
             {news?.map(newsItem => (
                 <NewsItem key={newsItem.id} newsItem={newsItem} />
             ))}
+            <Toaster />
         </div>
     )
 }
