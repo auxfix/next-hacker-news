@@ -6,7 +6,12 @@ import { HackerStory } from '@/types';
 import { getNewsQuery } from '@/query/queries'
 
 export default function News() {
-    const { data: news, isFetching  } = useQuery<HackerStory[]>({ queryKey: ['posts'], queryFn: getNewsQuery })
+    const { data: news, isFetching  } = useQuery<HackerStory[]>({ 
+        queryKey: ['posts'], 
+        queryFn: getNewsQuery,
+        retryOnMount: false,
+        staleTime: Infinity,
+    })
 
     if (isFetching) {
         return (

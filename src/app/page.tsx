@@ -9,7 +9,10 @@ import { getNewsQuery } from '@/query/queries'
 
 export default async function Home() {
   const queryClient = getQueryClient()
-  await queryClient.prefetchQuery({ queryKey: ['posts'], queryFn: getNewsQuery })
+  await queryClient.prefetchQuery({ 
+    queryKey: ['posts'], 
+    queryFn: getNewsQuery
+  })
   const dehydratedState = dehydrate(queryClient)
 
   return (
