@@ -32,7 +32,7 @@ export const getNewsQuery = async () => {
       newsIndex++;
 
       internalNews.push(internalNewsItem);
-    } 
+    }
 
     return internalNews;
 }

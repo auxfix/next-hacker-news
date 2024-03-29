@@ -10,7 +10,7 @@ import { getNewsQuery } from '@/query/queries'
 export default async function Home() {
   const queryClient = getSsrQueryClient()
   await queryClient.prefetchQuery({ 
-    queryKey: ['posts'], 
+    queryKey: ['news'], 
     queryFn: getNewsQuery,
   })
   const dehydratedState = dehydrate(queryClient)

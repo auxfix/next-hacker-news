@@ -9,7 +9,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { FaSpinner } from 'react-icons/fa';
 
 export default function News() {
-    const { data: news, isRefetching, isLoading} = useQuery<HackerStory[]>({ 
+    const { data: news, isRefetching, isLoading } = useQuery<HackerStory[]>({ 
         queryKey: ['news'], 
         queryFn: getNewsQuery,
     })
