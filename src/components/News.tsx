@@ -12,9 +12,6 @@ export default function News() {
     const { data: news, isRefetching, isLoading} = useQuery<HackerStory[]>({ 
         queryKey: ['news'], 
         queryFn: getNewsQuery,
-        staleTime: Infinity,
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
     })
 
     useEffect(() => {

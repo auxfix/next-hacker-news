@@ -1,12 +1,23 @@
 import { QueryClient } from '@tanstack/react-query'
 import { cache } from 'react'
 
-export const getQueryClient = cache(() => new QueryClient({
-    defaultOptions: {
+export const getSsrQueryClient = cache(() => new QueryClient({
+    defaultOptions: {  
       queries: {
-        staleTime: Infinity, // 1 hour in ms
-        refetchOnWindowFocus: false, // Disables automatic refetching when browser window is focused.
+        staleTime: 6000,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
       }
     }}
   )
+)
+
+export const getQueryClient = () => new QueryClient({
+  defaultOptions: {  
+    queries: {
+      staleTime: 6000,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  }}
 )

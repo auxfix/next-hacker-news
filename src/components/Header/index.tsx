@@ -10,9 +10,6 @@ export default function Header() {
   const { refetch } = useQuery<HackerStory[]>({ 
     queryKey: ['news'], 
     queryFn: getNewsQuery,
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
   })
   return (
     <header className="inset-x-0 top-0 h-28 bg-darkblue fixed z-50">
