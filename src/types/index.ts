@@ -1,3 +1,5 @@
+import { StaticImageData } from 'next/image';
+
 export * from './common';
 export * from './state';
 export * from '@/features/news/types';

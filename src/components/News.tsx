@@ -47,7 +47,7 @@ export default function News() {
     return (
         <div className='flex flex-col items-center justify-center'>
             {news?.map(newsItem => (
-                <NewsItem key={newsItem.id} newsItem={newsItem} />
+                <NewsItem key={`${newsItem.id}_${newsItem.authorId}`} newsItem={newsItem} />
             ))}
             <Toaster />
         </div>
