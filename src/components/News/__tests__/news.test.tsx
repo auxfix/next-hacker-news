@@ -17,9 +17,12 @@ const hackerStory =  {
 describe('<News />', () => { 
   test('News Item Renders Properly', async () => {
     const testNewsItem = hackerStory;
+    const { container, getByAltText, getByTestId  } = render(<NewsItem newsItem={testNewsItem} />)
 
-    render(<NewsItem newsItem={testNewsItem} />)
-    expect(screen.getByTestId('title')).toHaveTextContent(testNewsItem.title);
+    expect(getByAltText('News cover').getAttribute('src')).toBe(testNewsItem.img);
+    expect(container.querySelector('img.news-item-image')?.getAttribute('src')).toBe(testNewsItem.img);
+
+    expect(getByTestId('title')).toHaveTextContent(testNewsItem.title);
   })
 })
 
