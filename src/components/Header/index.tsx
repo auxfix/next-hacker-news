@@ -4,12 +4,12 @@ import styles from './header.module.scss';
 import { useQuery } from '@tanstack/react-query'
 
 import { HackerStory } from '@/types';
-import { getNewsQuery } from '@/query/queries'
+import { getNewsClient } from '@/query/queries'
 
 export default function Header() {
   const { refetch } = useQuery<HackerStory[]>({ 
     queryKey: ['news'], 
-    queryFn: getNewsQuery,
+    queryFn: getNewsClient,
   })
   return (
     <header className="inset-x-0 top-0 h-28 bg-darkblue fixed z-50">
