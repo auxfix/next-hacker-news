@@ -46,23 +46,26 @@ export default function Home() {
     }
 
   return (
-    <main className='bg-palegray'>
-      <button
-        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' 
-        onClick={retrieveFileBlob}
-      >Export top 10 rundom news</button>
-      <button
-        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10' 
-        onClick={getNew}
-      >Get top 10 news</button>
+    <main className='bg-palegray p-0'>
+      <div className='flex h-20 w-full items-center'>
+        <h2 className='font-bold text-2xl pl-5 pr-10'>Export tab</h2>
+        <button
+            className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' 
+            onClick={retrieveFileBlob}>
+                Export top 10 rundom news
+        </button>
+        <button
+            className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10' 
+            onClick={getNew}>
+                Get top 10 news
+        </button>
+      </div>
 
-
-<textarea 
-    value={news}
-    style={{ minHeight: "calc(100vh - 10rem)" }}
-className="block w-full h-full px-4 py-2 leading-tight bg-gray-100 border border-gray-300 rounded resize-none focus:outline-none focus:bg-white focus:border-blue-500">
-
-</textarea>
+    <textarea 
+        value={news}
+        style={{ minHeight: "calc(100vh - 20rem)" }}
+        className="block w-full h-full px-4 py-2 leading-tight bg-gray-100 border border-gray-300 
+        rounded resize-none focus:outline-none focus:bg-white focus:border-blue-500" />
     </main>    
   );
 }
