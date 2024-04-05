@@ -39,10 +39,10 @@ export default function Home() {
     });
 
   return (
-    <main className='bg-palegray p-0'>
+    <main className='bg-palegray p-0 items-center flex flex-col'>
       <div className='flex h-20 w-full items-center justify-between'>
         <div className='flex items-center'>
-            <h2 className='font-bold text-2xl pl-5 pr-10'>Export tab</h2>
+            <h2 className='font-bold text-2xl pl-7 pr-10'>Export tab</h2>
             <button
                 className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex' 
                 onClick={loadNewsBlob}>
@@ -54,14 +54,14 @@ export default function Home() {
                     {isLoadingText && <Loading />} Get top 10 news 
             </button>
         </div>
-        <Link className='font-bold py-2 pr-10 rounded ml-10 flex text-black font-bold text-4xl' href="/">{'<-'}</Link>
+        <Link className='font-bold py-2 pr-7 rounded ml-10 flex text-black font-bold text-4xl' href="/">{'<-'}</Link>
       </div>
 
     <textarea 
         value={news}
         onChange={() => {}}
         style={{ minHeight: "calc(100vh - 20rem)" }}
-        className="block w-full h-full px-4 py-2 leading-tight bg-gray-100 border border-gray-300 
+        className="block h-full w-[98.5%] px-4 py-2 leading-tight bg-gray-100 border border-gray-300 
         rounded resize-none focus:outline-none focus:bg-white focus:border-blue-500" />
     </main>    
   );
