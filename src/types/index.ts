@@ -13,7 +13,7 @@ export interface HackerStory {
     score: number;
     time: number;
     title: string;
-    url: string;
+    url?: string | null;
   }
   
   export interface User {
