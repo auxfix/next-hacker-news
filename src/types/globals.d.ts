@@ -8,4 +8,10 @@ declare global {
   const VERSION: string;
 }
 
+declare global {
+  var prisma: PrismaClient;
+}
+
+
 export {};
+

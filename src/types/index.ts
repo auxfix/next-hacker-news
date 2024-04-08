@@ -7,9 +7,9 @@ export * from '@/features/news/types';
 export interface HackerStory {
     authorId: string;
     id: number;
-    img?: string;
-    karma?: number; 
-    num?: number;
+    img?: string | null;
+    karma?: number | null; 
+    num?: number | null;
     score: number;
     time: number;
     title: string;

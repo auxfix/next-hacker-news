@@ -2,9 +2,12 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { HackerStory } from '@/types';
+import { saveNews } from '@/query/serverQueries';
 
 export default function Home() {
     const [news, setNews] = useState<string>('');
+    const [dbNews, setDbNews] = useState<HackerStory[]>([]);
 
     const [ isLoadingBlob, loadNewsBlob ] = useLoading(async () => {
         const ftch = await fetch(
@@ -34,9 +37,21 @@ export default function Home() {
                 }
             },
         )
-        const { newsItem } = await ftch.json()
+        const { newsItem } = await ftch.json();
+        setDbNews(newsItem);
         setNews(JSON.stringify(newsItem, null, 2));
     });
+
+  async function saveToDb() {
+    await await fetch('/api/news-save', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ news: dbNews })
+      });;
+  }
 
   return (
     <main className='bg-palegray p-0 items-center flex flex-col'>
@@ -52,6 +67,11 @@ export default function Home() {
                 className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10 flex' 
                 onClick={loadNewsText}>
                     {isLoadingText && <Loading />} Get top 10 news 
+            </button>
+            <button
+                className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10 flex' 
+                onClick={saveToDb}>
+                     Save news to DB 
             </button>
         </div>
         <Link className='font-bold py-2 pr-7 rounded ml-10 flex text-black font-bold text-4xl' href="/">{'<-'}</Link>
