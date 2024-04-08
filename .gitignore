@@ -41,3 +41,5 @@ assignment.pdf
 
 .env
 
+.env.development.local
+
