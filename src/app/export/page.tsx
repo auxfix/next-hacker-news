@@ -2,9 +2,13 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { HackerStory } from '@/types';
+import { saveNews } from '@/query/serverQueries';
 
 export default function Home() {
     const [news, setNews] = useState<string>('');
+    const [dbNews, setDbNews] = useState<HackerStory[]>([]);
+    const [dbNewsToShow, setDbNewsToShow] = useState<string>('');
 
     const [ isLoadingBlob, loadNewsBlob ] = useLoading(async () => {
         const ftch = await fetch(
@@ -34,35 +38,78 @@ export default function Home() {
                 }
             },
         )
-        const { newsItem } = await ftch.json()
+        const { newsItem } = await ftch.json();
+        setDbNews(newsItem);
         setNews(JSON.stringify(newsItem, null, 2));
     });
 
+  async function saveToDb() {
+     await fetch('/api/news-save', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ news: dbNews })
+      });;
+  }
+
+  async function getNewsFromDb() {
+    const news = await fetch('/api/news-save').then(res => res.json())
+    setDbNewsToShow(JSON.stringify(news, null, 2));
+  }
+
   return (
     <main className='bg-palegray p-0 items-center flex flex-col'>
-      <div className='flex h-20 w-full items-center justify-between'>
-        <div className='flex items-center'>
-            <h2 className='font-bold text-2xl pl-7 pr-10'>Export tab</h2>
-            <button
-                className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex' 
-                onClick={loadNewsBlob}>
-                    {isLoadingBlob && <Loading />} Export top 10 rundom news 
-            </button>
-            <button
-                className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10 flex' 
-                onClick={loadNewsText}>
-                    {isLoadingText && <Loading />} Get top 10 news 
-            </button>
+      <div className='flex justify-between w-full'>
+        <div className='w-full pl-5'>
+            <div className='flex h-20 w-full items-center justify-between'>
+                <div className='flex items-center'>
+                    <h2 className='font-bold text-2xl pl-7 pr-10'>Export tab</h2>
+                    <button
+                        className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex' 
+                        onClick={loadNewsBlob}>
+                            {isLoadingBlob && <Loading />} Export top 10 rundom news 
+                    </button>
+                    <button
+                        className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10 flex' 
+                        onClick={loadNewsText}>
+                            {isLoadingText && <Loading />} Get top 10 news 
+                    </button>
+                    <button
+                        className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10 flex' 
+                        onClick={saveToDb}>
+                            Save news to DB 
+                    </button>
+                </div>
+            </div>
+            <textarea 
+                value={news}
+                onChange={() => {}}
+                style={{ minHeight: "calc(100vh - 20rem)" }}
+                className="block h-full w-[98%] py-2 leading-tight bg-gray-100 border border-gray-300 
+                rounded resize-none focus:outline-none focus:bg-white focus:border-blue-500" />
         </div>
-        <Link className='font-bold py-2 pr-7 rounded ml-10 flex text-black font-bold text-4xl' href="/">{'<-'}</Link>
+        <div className='w-full' >
+            <div className='flex h-20 w-full items-center justify-between'>
+                <div className='flex items-center'>
+                    <h2 className='font-bold text-2xl pl-7 pr-10'>DB tab</h2>
+                    <button
+                        className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10 flex' 
+                        onClick={getNewsFromDb}>
+                            Get news from DB 
+                    </button>
+                </div>
+                <Link className='font-bold py-2 pr-7 rounded ml-10 flex text-black font-bold text-4xl' href="/">{'<-'}</Link>
+            </div>
+            <textarea 
+                value={dbNewsToShow}
+                onChange={() => {}}
+                style={{ minHeight: "calc(100vh - 20rem)" }}
+                className="block h-full w-[98%] py-2 leading-tight bg-gray-100 border border-gray-300 
+                rounded resize-none focus:outline-none focus:bg-white focus:border-blue-500" />
+        </div>
       </div>
-
-    <textarea 
-        value={news}
-        onChange={() => {}}
-        style={{ minHeight: "calc(100vh - 20rem)" }}
-        className="block h-full w-[98.5%] px-4 py-2 leading-tight bg-gray-100 border border-gray-300 
-        rounded resize-none focus:outline-none focus:bg-white focus:border-blue-500" />
     </main>    
   );
 }

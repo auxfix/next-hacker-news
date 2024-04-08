@@ -15,7 +15,7 @@ export default function NewsItem(props: NewsProps) {
 
   return (
     <div key={newsItem.id} className='news-item-container' data-testid="NewsItem">
-      <img alt="News cover" className='news-item-image' src={newsItem.img} />
+      <img alt="News cover" className='news-item-image' src={newsItem.img as string} />
       <div className='w-full'>
         <div>
           <span className='time-span'>{`# ${newsItem.num}`}</span>
@@ -43,7 +43,7 @@ export default function NewsItem(props: NewsProps) {
         <a
           className='read-more'
           data-testid="link"
-          href={newsItem.url}
+          href={newsItem.url as string}
           rel="noreferrer"
           target="_blank"
         >
