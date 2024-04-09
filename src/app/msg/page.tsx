@@ -1,57 +1,56 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Kafka } from 'kafkajs'
-
-const kafka = new Kafka({
-  clientId: 'news-app',
-  brokers: [process.env.KAFKA_BROKER!],
-})
-
+import { socket } from '@/services/socket';
 
 export default function Home() {
-    const [inMsg, setInMsg] = useState<string>('');
+    const [inMsg, setInMsg] = useState('');
     const [outMsg, setOutMsg] = useState<string[]>([]);
-    const kp = useRef<any>(null);
-    const kc = useRef<any>(null);
-
+    const [isConnected, setIsConnected] = useState(false);
+    const [transport, setTransport] = useState("N/A");
+  
     useEffect(() => {
-        const producer = kafka.producer();
-        const consumer = kafka.consumer({ groupId: process.env.KAFKA_GROUP_ID! })
+      if (socket.connected) {
+        onConnect();
+      }
+  
+      function onConnect() {
+        setIsConnected(true);
+        setTransport(socket.io.engine.transport.name);
+        socket.on("out", (msg) => {
+            setOutMsg([...outMsg, msg])
+        });
+        socket.io.engine.on("upgrade", (transport) => {
+          setTransport(transport.name);
+        });
+      }
+  
+      function onDisconnect() {
+        setIsConnected(false);
+        setTransport("N/A");
+      }
+  
+      socket.on("connect", onConnect);
+      socket.on("disconnect", onDisconnect);
 
-        producer.connect().then(() => {
-            kp.current = producer;
-        })
-
-        consumer.connect().then(() => {
-            kc.current = consumer;
-            kc.current.subscribe({ topic: process.env.KAFKA_MSG_TOPIC!, fromBeginning: true }).then(() => {
-                kc.current.run({
-                    eachMessage: async ({ topic, partition, message }: any) => {
-                        setOutMsg([...outMsg, message])
-                    },
-                })
-            });
-        })
-        
-        return () => { 
-            producer.disconnect();
-            consumer.disconnect()
-        } 
-    },[])
+  
+      return () => {
+        socket.off("connect", onConnect);
+        socket.off("disconnect", onDisconnect);
+      };
+    }, []);
 
     const sendMessage = async () => {
-        kp.current.send({
-            topic: process.env.KAFKA_MSG_TOPIC,
-            messages: [
-              { value: inMsg },
-            ],
-          })
-      };
+        socket.emit("in", inMsg);
+    };
 
   return (
     <main className='bg-palegray p-0 items-center flex flex-col'>
+      <div>
+        <p>Status: { isConnected ? "connected" : "disconnected" }</p>
+        <p>Transport: { transport }</p>
+      </div>
       <div className='flex justify-between w-full'>
         <div className='w-full pl-5'>
             <div className='flex h-20 w-full items-center justify-between'>
