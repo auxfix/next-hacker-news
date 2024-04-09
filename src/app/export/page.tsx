@@ -43,21 +43,22 @@ export default function Home() {
         setJsonNews(JSON.stringify(newsItem, null, 2));
     });
 
-  async function saveNewsToDb() {
-     await fetch('/api/news/save', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ news: newsToSave })
-      });;
-  }
+    const [ isLoadingSaveNewsToDb, saveNewsToDb ] = useLoading(async () => {
+        await fetch('/api/news/save', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ news: newsToSave })
+          });
+    });
 
-  async function getNewsFromDb() {
-    const news = await fetch('/api/news/save').then(res => res.json())
-    setNewsFromBack(JSON.stringify(news, null, 2));
-  }
+
+    const [ isLoadingGetNewsFromDb , getNewsFromDb ] = useLoading(async () => {
+        const news = await fetch('/api/news/save').then(res => res.json())
+        setNewsFromBack(JSON.stringify(news, null, 2));
+    });
 
   return (
     <main className='bg-palegray p-0 items-center flex flex-col'>
@@ -65,21 +66,21 @@ export default function Home() {
         <div className='w-full pl-5'>
             <div className='flex h-20 w-full items-center justify-between'>
                 <div className='flex items-center'>
-                    <h2 className='font-bold text-2xl pl-7 pr-10'>Export tab</h2>
+                    <h2 className='font-bold text-2xl pr-10 pl-2'>Export tab</h2>
                     <button
                         className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex' 
                         onClick={loadNewsBlob}>
-                            {isLoadingBlob && <LoadingSpinner />} Export top 10 rundom news 
+                            { isLoadingBlob && <LoadingSpinner /> } Export top 10 rundom news 
                     </button>
                     <button
                         className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10 flex' 
                         onClick={loadNewsText}>
-                            {isLoadingText && <LoadingSpinner />} Get top 10 news 
+                            { isLoadingText && <LoadingSpinner /> } Get top 10 news 
                     </button>
                     <button
                         className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10 flex' 
                         onClick={saveNewsToDb}>
-                            Save news to DB 
+                            { isLoadingSaveNewsToDb && <LoadingSpinner />} Save news to DB 
                     </button>
                 </div>
             </div>
@@ -93,11 +94,11 @@ export default function Home() {
         <div className='w-full' >
             <div className='flex h-20 w-full items-center justify-between'>
                 <div className='flex items-center'>
-                    <h2 className='font-bold text-2xl pl-7 pr-10'>DB tab</h2>
+                    <h2 className='font-bold text-2xl pr-5 pl-2'>DB tab</h2>
                     <button
                         className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10 flex' 
                         onClick={getNewsFromDb}>
-                            Get news from DB 
+                            { isLoadingGetNewsFromDb && <LoadingSpinner /> } Get news from DB 
                     </button>
                 </div>
                 <Link className='font-bold py-2 pr-7 rounded ml-10 flex text-black font-bold text-4xl' href="/">{'<-'}</Link>
