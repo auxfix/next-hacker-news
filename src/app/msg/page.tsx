@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { socket } from '@/services/socket';
 
 export default function Home() {
     const [inMsg, setInMsg] = useState('');
+    const outMsgRef = useRef<string[]>([])
     const [outMsg, setOutMsg] = useState<string[]>([]);
     const [isConnected, setIsConnected] = useState(false);
     const [transport, setTransport] = useState("N/A");
@@ -18,8 +19,9 @@ export default function Home() {
       function onConnect() {
         setIsConnected(true);
         setTransport(socket.io.engine.transport.name);
-        socket.on("out", (msg) => {
-            setOutMsg([...outMsg, msg])
+        socket.on("inform_client", (msg) => {
+          outMsgRef.current = [...outMsgRef.current, msg];
+          setOutMsg(outMsgRef.current)
         });
         socket.io.engine.on("upgrade", (transport) => {
           setTransport(transport.name);
@@ -41,8 +43,9 @@ export default function Home() {
       };
     }, []);
 
-    const sendMessage = async () => {
-        socket.emit("in", inMsg);
+    const sendMessage = () => {
+        console.log('snd', inMsg)
+        socket.emit("inform_server", inMsg);
     };
 
   return (

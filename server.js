@@ -5,14 +5,20 @@ const { Kafka } = require('kafkajs');
 let consumer = null;
 let producer = null;
 
-async function getBusHandlers(msgHandler) {
+async function getBusHandlers() {
     if(!!producer && !!consumer) {
-        return [producer, consumer];
+        return await Promise.resolve([producer, consumer]);
     }
 
     const kafka = new Kafka({
         clientId: 'news-app',
         brokers: [process.env.KAFKA_BROKER],
+        ssl: true,
+        sasl: {
+          mechanism: 'SCRAM-SHA-512',
+          username: process.env.KAFKA_USER,
+          password: process.env.KAFKA_PASSWORD
+        },
     })
     
     producer = kafka.producer();
@@ -22,14 +28,6 @@ async function getBusHandlers(msgHandler) {
     await consumer.connect();
 
     await consumer.subscribe({ topic: process.env.KAFKA_MSG_TOPIC, fromBeginning: true });
-
-    await consumer.run({
-        eachMessage: async ({ topic, partition, message }) => {
-            if(msgHandler) {
-                msgHandler(message);
-            } 
-        },
-    })
 
     return [producer, consumer];
 }
@@ -49,25 +47,31 @@ app.prepare().then(async () => {
     io.on('connection', async (socket) => {
         console.log('Client connected');
 
-        await getBusHandlers((msg) => {
-            console.log(`Server::Kafka --> Socket::${msg}`);
-            socket.emit('out', msg);
-        })     
-    });
+        const [_, consumer]  = await getBusHandlers();
 
-    io.on('in', async (msg) => {
-        console.log(`Server::Socket --> Kafka::${msg}`);
-
-        const [producer] = await getBusHandlers();
+        await consumer.run({
+            eachMessage: async ({ topic, partition, message }) => {
+                const msg = message.value.toString()
+                console.log(`Server::Socket <-- Kafka::${msg}`);
+                io.emit('inform_client', msg); 
+            },
+        })
         
-        producer.produce(
-            process.env.KAFKA_MSG_TOPIC, 
-            null,
-            Buffer.from(msg),
-            null,
-            Date.now()
-        );
+        socket.on('inform_server', async (msg) => {
+            console.log(`Server::Socket --> Kafka::${msg}`);
+    
+            const [producer] = await getBusHandlers();
+
+            await producer.send({
+                topic: process.env.KAFKA_MSG_TOPIC,
+                messages: [
+                  { value: msg },
+                ],
+            })
+        });
     });
+
+
 
 
 
