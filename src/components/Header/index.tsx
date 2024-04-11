@@ -18,7 +18,7 @@ export default function Header() {
         <Button onClick={() => refetch()}>Get more news</Button>    
       </div>
       <div className='absolute top-10 right-12'>
-        <Link className='text-white font-bold text-2xl hover:underline' href="/export">Export</Link>
+        <Link className='text-white font-bold text-2xl hover:underline' href="/dev">dev</Link>
       </div>
     </header>
   );

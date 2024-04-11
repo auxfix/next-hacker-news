@@ -101,7 +101,7 @@ export default function Home() {
                             { isLoadingGetNewsFromDb && <LoadingSpinner /> } Get news from DB 
                     </button>
                 </div>
-                <Link className='font-bold py-2 pr-7 rounded ml-10 flex text-black font-bold text-4xl' href="/">{'<-'}</Link>
+                <Link className='font-bold py-2 pr-7 rounded ml-10 flex text-black font-bold text-4xl' href="/dev">{'<-'}</Link>
             </div>
             <textarea 
                 value={newsFromBack}

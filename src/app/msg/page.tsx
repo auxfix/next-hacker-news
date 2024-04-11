@@ -78,7 +78,7 @@ export default function Home() {
                 <div className='flex items-center'>
                     <h2 className='font-bold text-2xl pr-5 pl-2'>Recieved</h2>
                 </div>
-                <Link className='font-bold py-2 pr-7 rounded ml-10 flex text-black font-bold text-4xl' href="/">{'<-'}</Link>
+                <Link className='font-bold py-2 pr-7 rounded ml-10 flex text-black font-bold text-4xl' href="/dev">{'<-'}</Link>
             </div>
             <textarea 
                 onChange={() => {}}
