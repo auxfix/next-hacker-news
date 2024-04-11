@@ -3,16 +3,16 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { HackerStory } from '@/types';
-import { saveNews } from '@/query/serverQueries';
+import { useLoading } from './hooks/use-loading';
 
 export default function Home() {
-    const [news, setNews] = useState<string>('');
-    const [dbNews, setDbNews] = useState<HackerStory[]>([]);
-    const [dbNewsToShow, setDbNewsToShow] = useState<string>('');
+    const [jsonNews, setJsonNews] = useState<string>('');
+    const [newsToSave, setNewsToSave] = useState<HackerStory[]>([]);
+    const [newsFromBack, setNewsFromBack] = useState<string>('');
 
     const [ isLoadingBlob, loadNewsBlob ] = useLoading(async () => {
         const ftch = await fetch(
-            `/api/news-export`,
+            `/api/news/export`,
             {
                 method: "GET",
                 headers: {
@@ -30,7 +30,7 @@ export default function Home() {
 
     const [ isLoadingText, loadNewsText ] = useLoading(async () => {
         const ftch = await fetch(
-            `/api/news-export`,
+            `/api/news/export`,
             {
                 method: "GET",
                 headers: {
@@ -39,24 +39,24 @@ export default function Home() {
             },
         )
         const { newsItem } = await ftch.json();
-        setDbNews(newsItem);
-        setNews(JSON.stringify(newsItem, null, 2));
+        setNewsToSave(newsItem);
+        setJsonNews(JSON.stringify(newsItem, null, 2));
     });
 
-  async function saveToDb() {
-     await fetch('/api/news-save', {
+  async function saveNewsToDb() {
+     await fetch('/api/news/save', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ news: dbNews })
+        body: JSON.stringify({ news: newsToSave })
       });;
   }
 
   async function getNewsFromDb() {
-    const news = await fetch('/api/news-save').then(res => res.json())
-    setDbNewsToShow(JSON.stringify(news, null, 2));
+    const news = await fetch('/api/news/save').then(res => res.json())
+    setNewsFromBack(JSON.stringify(news, null, 2));
   }
 
   return (
@@ -69,22 +69,22 @@ export default function Home() {
                     <button
                         className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex' 
                         onClick={loadNewsBlob}>
-                            {isLoadingBlob && <Loading />} Export top 10 rundom news 
+                            {isLoadingBlob && <LoadingSpinner />} Export top 10 rundom news 
                     </button>
                     <button
                         className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10 flex' 
                         onClick={loadNewsText}>
-                            {isLoadingText && <Loading />} Get top 10 news 
+                            {isLoadingText && <LoadingSpinner />} Get top 10 news 
                     </button>
                     <button
                         className='bg-blue-500 h-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10 flex' 
-                        onClick={saveToDb}>
+                        onClick={saveNewsToDb}>
                             Save news to DB 
                     </button>
                 </div>
             </div>
             <textarea 
-                value={news}
+                value={jsonNews}
                 onChange={() => {}}
                 style={{ minHeight: "calc(100vh - 20rem)" }}
                 className="block h-full w-[98%] py-2 leading-tight bg-gray-100 border border-gray-300 
@@ -103,7 +103,7 @@ export default function Home() {
                 <Link className='font-bold py-2 pr-7 rounded ml-10 flex text-black font-bold text-4xl' href="/">{'<-'}</Link>
             </div>
             <textarea 
-                value={dbNewsToShow}
+                value={newsFromBack}
                 onChange={() => {}}
                 style={{ minHeight: "calc(100vh - 20rem)" }}
                 className="block h-full w-[98%] py-2 leading-tight bg-gray-100 border border-gray-300 
@@ -114,7 +114,7 @@ export default function Home() {
   );
 }
 
-function Loading(){
+function LoadingSpinner(){
     return (<span className="mr-2">
     <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -123,13 +123,3 @@ function Loading(){
   </span>)
 }
 
-function useLoading(loadHandler:  () => Promise<void>): [
-    boolean, () => void
-] {
-    const [isLoading, setIsLoading] = useState(false);
-    function doLoad() {
-        setIsLoading(true);
-        loadHandler().then(() => { setIsLoading(false); });
-    }
-    return [isLoading, doLoad];
-}

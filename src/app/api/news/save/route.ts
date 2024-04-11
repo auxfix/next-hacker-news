@@ -1,4 +1,4 @@
-import { saveNews, getNews } from "@/query/serverQueries";
+import { saveNews, getNews } from "@/data/dbo";
 
 export async function POST(req: any){
   const { news } = await req.json();
