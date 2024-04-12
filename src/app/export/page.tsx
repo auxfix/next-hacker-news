@@ -61,7 +61,7 @@ export default function Home() {
     });
 
   return (
-    <main className='bg-palegray p-0 items-center flex flex-col'>
+    <main className='bg-gradient-to-r from-blue-200 to-green-200 p-8 rounded-lg shadow-lg flex flex-col items-center justify-start s'>
       <div className='flex justify-between w-full'>
         <div className='w-full pl-5'>
             <div className='flex h-20 w-full items-center justify-between'>
@@ -88,7 +88,7 @@ export default function Home() {
                 value={jsonNews}
                 onChange={() => {}}
                 style={{ minHeight: "calc(100vh - 20rem)" }}
-                className="block h-full w-[98%] py-2 leading-tight bg-gray-100 border border-gray-300 
+                className="shadow-lg block h-full w-[98%] py-2 leading-tight bg-gray-100 border border-gray-300 
                 rounded resize-none focus:outline-none focus:bg-white focus:border-blue-500" />
         </div>
         <div className='w-full' >
@@ -107,7 +107,7 @@ export default function Home() {
                 value={newsFromBack}
                 onChange={() => {}}
                 style={{ minHeight: "calc(100vh - 20rem)" }}
-                className="block h-full w-[98%] py-2 leading-tight bg-gray-100 border border-gray-300 
+                className="shadow-lg block h-full w-[98%] py-2 leading-tight bg-gray-100 border border-gray-300 
                 rounded resize-none focus:outline-none focus:bg-white focus:border-blue-500" />
         </div>
       </div>
