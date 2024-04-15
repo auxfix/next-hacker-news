@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import NewsItem from '@/features/news/components/NewsItem';
 import { HackerStory } from '@/types';
-import { getNewsClient } from '@/query/queries'
+import { getNewsClient } from '@/lib/query/queries'
 import toast, { Toaster } from 'react-hot-toast';
 import { FaSpinner } from 'react-icons/fa';
 

@@ -5,7 +5,7 @@ import styles from './header.module.scss';
 import { useQuery } from '@tanstack/react-query'
 
 import { HackerStory } from '@/types';
-import { getNewsClient } from '@/query/queries'
+import { getNewsClient } from '@/lib/query/queries'
 
 export default function Header() {
   const { refetch } = useQuery<HackerStory[]>({ 

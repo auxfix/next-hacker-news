@@ -1,4 +1,4 @@
-import { saveNews, getNews } from "@/data/dbo";
+import { saveNews, getNews } from "@/lib/dataAccess";
 
 export async function POST(req: any){
   const { news } = await req.json();

@@ -1,6 +1,6 @@
 import rundom_images from '@/features/news/assets/img/rundom_huckers_images';
 import { HackerStoryDTO, HackerStory_Dto_to_Internal, UserDTO } from '@/types';
-import { getRundomArray } from '@/utils';
+import { getRundomArray } from '@/lib/utils';
 
 export async function GET(request: Request) {
     const {searchParams} = new URL(request.url);

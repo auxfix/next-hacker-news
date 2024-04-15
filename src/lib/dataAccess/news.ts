@@ -1,5 +1,5 @@
 import { HackerStory } from '@/types';
-import prisma from '../../lib/prisma';
+import prisma from '../prisma/prisma';
 
 export const getNews: () => Promise<HackerStory[]> = async () => {
   return await prisma.news.findMany();

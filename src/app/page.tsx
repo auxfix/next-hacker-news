@@ -1,11 +1,11 @@
 import React from 'react';
 import { dehydrate, HydrationBoundary  } from '@tanstack/react-query'
-import { getSsrQueryClient } from '@/query/getClientQuery'
+import { getSsrQueryClient } from '@/lib/query/getClientQuery'
 
 import Header from '@/components/Header';
 import News from '@/components/News';
 
-import { getNewsServer } from '@/query/queries'
+import { getNewsServer } from '@/lib/query/queries'
 
 export default async function Home() {
   const queryClient = getSsrQueryClient()

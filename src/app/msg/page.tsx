@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { socket } from '@/services/socket';
+import { socket } from '@/lib/services/socket';
 
 export default function Home() {
     const [inMsg, setInMsg] = useState('');

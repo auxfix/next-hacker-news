@@ -1,6 +1,6 @@
 import rundom_images from '@/features/news/assets/img/rundom_huckers_images';
 import { HackerStory, HackerStoryDTO, HackerStory_Dto_to_Internal, UserDTO } from '@/types';
-import { getRundomArray, getRundomItemsFromArray } from '@/utils';
+import { getRundomArray, getRundomItemsFromArray } from '@/lib/utils';
 
 
 export const getNewsServer= async () => {

@@ -1,6 +1,6 @@
 import rundom_images from '@/features/news/assets/img/rundom_huckers_images';
 import { HackerStoryDTO, HackerStory_Dto_to_Internal, UserDTO } from '@/types';
-import { getRundomArray, getRundomItemsFromArray } from '@/utils';
+import { getRundomArray, getRundomItemsFromArray } from '@/lib/utils';
 
 export async function GET() {
     const topNews = await fetch(process.env.HACKER_API + '/topstories.json').then(data => data.json());
