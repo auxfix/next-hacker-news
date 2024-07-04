@@ -23,6 +23,13 @@ export default function Dev() {
           </Link>
         </div>
         <div className="w-full flex justify-center">
+          <Link href="/redux">
+            <button className="min-w-[300px] text-lg text-white bg-blue-500 hover:bg-blue-600 py-3 px-8 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+              Redux News Page Implementation
+            </button>
+          </Link>
+        </div>
+        <div className="w-full flex justify-center">
           <Link href="/">
             <button className="min-w-[300px] text-lg text-blue-700 hover:text-blue-900 transition duration-300 ease-in-out bg-white hover:bg-gray-100 py-3 px-8 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
               Go Back
