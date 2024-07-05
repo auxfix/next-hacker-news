@@ -1,14 +1,14 @@
 import React from 'react';
 
-import Header from '@/components/Header';
 import ReduxNews from '@/components/ReduxNews';
 import StoreProvider from '../StoreProvider';
+import ReduxHeader from '@/components/ReduxHeader';
 
 export default async function Redux() {
   return (
     <main className='bg-palegray'>
-      <Header />
       <StoreProvider>
+        <ReduxHeader />
         <ReduxNews />
       </StoreProvider>
     </main>    
