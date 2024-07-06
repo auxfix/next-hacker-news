@@ -28,6 +28,9 @@ export const newsSlice = createSlice({
   name: 'news',
   initialState,
   reducers: {
+    removeNewsItem(state, action: PayloadAction<number>) {
+      state.news = state.news.filter(n => n.id !== action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getNews.pending, (state) => {
@@ -40,6 +43,8 @@ export const newsSlice = createSlice({
   },
 
 })
+
+export const { removeNewsItem } = newsSlice.actions
 
 export const getNewsSelector = (state: RootState) => state.news.news;
 export const getNewsLoadingSelector = (state: RootState) => state.news.loading;
