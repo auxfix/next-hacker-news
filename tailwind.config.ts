@@ -15,6 +15,8 @@ const config: Config = {
         'darkblue': '#113740',
         'bluegradientstart': '#4facfe',
         'bluegradientend': '#00f2fe',
+        'redgradientstart': '#f77c7c',
+        'redgradientend': '#f53838',
         'palegray': '#eee',
         'lightblue': '#4facfe',
         'normaltext': 'rgb(0 0 0 / 70%)',

@@ -39,16 +39,26 @@ export default function NewsItem(props: NewsProps) {
             <span className='data-span' data-testid="karma">{newsItem.karma}</span>
           </div>
         </div>
-
-        <a
-          className='read-more'
-          data-testid="link"
-          href={newsItem.url as string}
-          rel="noreferrer"
-          target="_blank"
-        >
-          Read more
-        </a>
+        <div className='w-full flex justify-between'>
+          <a
+            className='read-more'
+            data-testid="link"
+            href={newsItem.url as string}
+            rel="noreferrer"
+            target="_blank"
+          >
+            Read more
+          </a>
+          <a
+            className='delete'
+            data-testid="link"
+            href={newsItem.url as string}
+            rel="noreferrer"
+            target="_blank"
+          >
+            X
+          </a>
+        </div>
       </div>
     </div>
   );

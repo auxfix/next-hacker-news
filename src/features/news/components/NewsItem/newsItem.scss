@@ -21,16 +21,28 @@
     @apply bg-transparent bg-gradient-to-r from-bluegradientstart to-bluegradientend rounded-xl text-white inline-block
   }
 
+  .readmore-1-red {
+    @apply bg-transparent bg-gradient-to-r from-redgradientend to-redgradientstart rounded-xl text-white inline-block
+  }
+
   .readmore-2 {
     @apply text-2xl tracking-wide mt-[3rem] py-[1.5rem] px-[3rem] no-underline uppercase
   }
 
   .readmore-3 {
-    @apply  hover:from-bluegradientend hover:to-bluegradientstart
+    @apply hover:from-bluegradientend hover:to-bluegradientstart
+  }
+
+  .readmore-3-red {
+    @apply hover:from-redgradientstart hover:to-redgradientend
   }
 
   .read-more {
     @apply readmore-1 readmore-2 readmore-3
+  }
+
+  .delete {
+    @apply readmore-1-red readmore-2 readmore-3-red
   }
 }
 
