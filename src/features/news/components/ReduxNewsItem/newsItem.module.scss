@@ -1,0 +1,94 @@
+@import '~styles/common.scss';
+
+.container {
+  align-items: center;
+  background-color: $white;
+  border-radius: 0.8rem;
+  box-shadow: 0 1.4rem 8rem $shadow_color;
+  display: flex;
+  margin: 5rem 0;
+  max-width: 98rem;
+  padding: 5rem;
+  width: 100%;
+
+  @media screen and (max-width: 868px) {
+    flex-direction: column;
+    padding: 2.5rem;
+  }
+}
+
+.image {
+  border-radius: 0.8rem;
+  display: block;
+  height: 20rem;
+  max-width: 35rem;
+  min-width: 35rem;
+  object-fit: cover;
+  position: relative;
+  transform: translateX(-8rem);
+  width: 100%;
+
+  @media screen and (max-width: 868px) {
+    max-width: 100%;
+    min-width: 100%;
+    transform: translate(0, -5rem);
+  }
+}
+
+.time {
+  span {
+    color: $grey_text;
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+  }
+}
+
+.title {
+  color: $title_color;
+  font-size: 2.5rem;
+  margin: 1.5rem 0 2rem;
+  text-transform: uppercase;
+}
+
+.text {
+  span {
+    color: $normal_text;
+    font-size: 1.7rem;
+    margin-bottom: 3rem;
+
+    &:first-of-type {
+      font-weight: bolder;
+      margin-right: 3rem;
+    }
+  }
+}
+
+.infoblock {
+  border-bottom: .2rem solid $blue_gradient_start;
+  border-top: .2rem solid $blue_gradient_start;
+  padding: 0.8rem 0;
+  width: 50%;
+}
+
+.readmore {
+  background-image: linear-gradient(to right, $blue_gradient_start 0%, $blue_gradient_end 100%);
+  border-radius: 0.8rem;
+  color: $white;
+  display: inline-block;
+  font-size: 1.2rem;
+  letter-spacing: .1rem;
+  margin-top: 3rem;
+  padding: 1.5rem 3rem;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  &:hover {
+    background-image: linear-gradient(to right, $blue_gradient_end 0%, $blue_gradient_start 100%);
+  }
+}
+
+.info {
+  width: 100%;
+}

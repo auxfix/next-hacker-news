@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+  .news-item-container {
+    @apply items-center bg-white rounded-xl shadow-xl flex mx-0 my-20 p-20 w-full max-w-[96rem] max-[868px]:p-10 max-[868px]:flex-col
+  }
+  .news-item-image {
+    @apply rounded-xl block h-80 w-[35rem] object-cover relative -translate-x-28 max-[868px]:w-full max-[868px]:-translate-y-14  max-[868px]:translate-x-0
+  }
+  .time-span {
+    @apply text-gray-600 block text-3xl my-[0.5rem] mx-0
+  }
+  .data-span {
+    @apply text-normaltext text-3xl mb-[3rem]
+  }
+
+  .readmore-1 {
+    @apply bg-transparent bg-gradient-to-r from-bluegradientstart to-bluegradientend rounded-xl text-white inline-block
+  }
+
+  .readmore-1-red {
+    @apply bg-transparent bg-gradient-to-r from-redgradientend to-redgradientstart rounded-xl text-white inline-block
+  }
+
+  .readmore-2 {
+    @apply text-2xl tracking-wide mt-[3rem] py-[1.5rem] px-[3rem] no-underline uppercase
+  }
+
+  .readmore-3 {
+    @apply hover:from-bluegradientend hover:to-bluegradientstart
+  }
+
+  .readmore-3-red {
+    @apply hover:from-redgradientstart hover:to-redgradientend
+  }
+
+  .read-more {
+    @apply readmore-1 readmore-2 readmore-3
+  }
+
+  .delete {
+    @apply readmore-1-red readmore-2 readmore-3-red
+  }
+}
+

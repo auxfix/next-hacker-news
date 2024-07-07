@@ -1,6 +1,11 @@
 import { getFormattedTimeForNews } from '@/features/news/utils';
 import { HackerStory } from '@/types';
+import { removeNewsItem } from '@/lib/redux/features/news';
+
+import styles from './newsItem.module.scss';
 import  './newsItem.scss';
+import { useCallback } from 'react';
+import { useAppStore } from '@/lib/redux/hooks';
 
 interface NewsProps {
   newsItem: HackerStory;
@@ -8,6 +13,15 @@ interface NewsProps {
 
 export default function NewsItem(props: NewsProps) {
   const { newsItem } = props;
+  const { id: newsItemId } = newsItem;
+  
+  const store = useAppStore()
+
+  const removeNI = useCallback((event: React.MouseEvent<HTMLElement>) => {
+    store.dispatch(removeNewsItem(newsItemId));
+    event.preventDefault();
+  }, [newsItemId]);
+
   const { monthDateYear, weekDay } = getFormattedTimeForNews(newsItem.time);
 
   return (
@@ -45,6 +59,14 @@ export default function NewsItem(props: NewsProps) {
             target="_blank"
           >
             Read more
+          </a>
+          <a
+            className='delete cursor-pointer'
+            data-testid="link"
+            rel="noreferrer"
+            onClick={removeNI}
+          >
+            X
           </a>
         </div>
       </div>
