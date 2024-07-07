@@ -1,7 +1,6 @@
 'use client'
 
 import { useRef } from 'react'
-import NewsItem from '@/features/news/components/NewsItem';
 import { Toaster } from 'react-hot-toast';
 import { useAppSelector, useAppStore } from '@/lib/redux/hooks';
 import { getNews, getNewsLoadingSelector, getNewsSelector } from '@/lib/redux/features/news';

@@ -1,5 +1,7 @@
 import { getFormattedTimeForNews } from '@/features/news/utils';
 import { HackerStory } from '@/types';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCallback } from 'react';
 import  './newsItem.scss';
 
 interface NewsProps {
@@ -7,8 +9,16 @@ interface NewsProps {
 }
 
 export default function NewsItem(props: NewsProps) {
+  const queryClient = useQueryClient();
   const { newsItem } = props;
+  const { id: newsItemId } = newsItem;
   const { monthDateYear, weekDay } = getFormattedTimeForNews(newsItem.time);
+
+  const removeNI = useCallback(() => {
+    queryClient.setQueryData(['news'], (news: HackerStory[]) =>
+      news.filter((newsItem: HackerStory) => newsItem.id !== newsItemId),
+    );
+  }, [newsItemId]);
 
   return (
     <div key={newsItem.id} className='news-item-container' data-testid="NewsItem">
@@ -45,6 +55,14 @@ export default function NewsItem(props: NewsProps) {
             target="_blank"
           >
             Read more
+          </a>
+          <a
+            className='delete cursor-pointer'
+            data-testid="link"
+            rel="noreferrer"
+            onClick={removeNI}
+          >
+            X
           </a>
         </div>
       </div>
