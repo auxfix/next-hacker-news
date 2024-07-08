@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import  './button.scss';
 import useButtonStyle from './hooks/useButtonStyle';
 
@@ -15,7 +16,20 @@ export default function Button(props: ButtonProps) {
   ]);
 
   return (
-    <button
+    <motion.button
+      initial={{
+        translateX: -10,
+        translateY: -6
+      }}
+      whileTap={{
+        scale: 0.9
+      }}
+      whileHover={{
+        scale: 1.04,
+        translateX: 10,
+        translateY: 4,
+        transition: { duration: 0.2 },
+      }}
       className={buttonStyle}
       data-testid="button"
       onClick={onClick}
@@ -23,6 +37,6 @@ export default function Button(props: ButtonProps) {
       onMouseUp={onButtonUp}
     >
       {children}
-    </button>
+    </motion.button>
   );
 }

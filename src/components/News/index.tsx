@@ -7,6 +7,7 @@ import { HackerStory } from '@/types';
 import { getNewsClient } from '@/lib/query/queries'
 import toast, { Toaster } from 'react-hot-toast';
 import { FaSpinner } from 'react-icons/fa';
+import { AnimatePresence } from 'framer-motion';
 
 export default function News() {
     const { data: news, isRefetching, isLoading } = useQuery<HackerStory[]>({ 
@@ -46,9 +47,11 @@ export default function News() {
 
     return (
         <div className='flex flex-col items-center justify-center'>
-            {news?.map(newsItem => (
-                <NewsItem key={`${newsItem.id}_${newsItem.authorId}`} newsItem={newsItem} />
-            ))}
+            <AnimatePresence>
+                {news?.map(newsItem => (
+                    <NewsItem key={`${newsItem.id}_${newsItem.authorId}`} newsItem={newsItem} />
+                ))}
+            </AnimatePresence>
             <Toaster />
         </div>
     )
