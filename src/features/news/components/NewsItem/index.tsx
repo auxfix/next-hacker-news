@@ -2,6 +2,7 @@ import { getFormattedTimeForNews } from '@/features/news/utils';
 import { HackerStory } from '@/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
+import { motion } from 'framer-motion';
 import  './newsItem.scss';
 
 interface NewsProps {
@@ -47,7 +48,11 @@ export default function NewsItem(props: NewsProps) {
           </div>
         </div>
         <div className='w-full flex justify-between'>
-          <a
+          <motion.a
+            whileHover={{
+              scale: 1.2,
+              transition: { duration: 0.2 },
+            }}
             className='read-more'
             data-testid="link"
             href={newsItem.url as string}
@@ -55,15 +60,20 @@ export default function NewsItem(props: NewsProps) {
             target="_blank"
           >
             Read more
-          </a>
-          <a
+          </motion.a>
+          <motion.a
+            whileHover={{
+              scale: 1.2,
+              rotate: 180,
+              transition: { duration: 0.2 },
+            }}
             className='delete cursor-pointer'
             data-testid="link"
             rel="noreferrer"
             onClick={removeNI}
           >
             X
-          </a>
+          </motion.a>
         </div>
       </div>
     </div>
