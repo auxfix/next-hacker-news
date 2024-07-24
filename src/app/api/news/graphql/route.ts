@@ -1,35 +1,56 @@
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import { buildSchema, Resolver, Query, ObjectType, Field } from 'type-graphql'
 import { ApolloServer } from "@apollo/server";
 import { NextRequest } from "next/server";
-import { gql } from "graphql-tag";
 import { getNewsServer } from "@/lib/query/queries";
 
-const typeDefs = gql`
-  type HackerNews {
-    authorId: String
-    id: Int
-    img: String
-    karma: Int 
-    num: Int
-    score: Int
-    time: Int
-    title: String
-    url: String
-  }
-  type Query {
-    news: [HackerNews]
-  }
-`;
+import "reflect-metadata";
 
-const resolvers = {
-  Query: {
-    news: async () => await getNewsServer(),
-  },
-};
+@ObjectType()
+class HackerNews {
+  @Field()
+  authorId: String;
+
+  @Field()
+  id: number;
+
+  @Field()
+  img: String;
+
+  @Field()
+  karma: number;
+
+  @Field()
+  num: number;
+
+  @Field()
+  score: number;
+
+  @Field()
+  time: number;
+
+  @Field()
+  title: String;
+
+  @Field()
+  url: String;
+}
+
+@Resolver(HackerNews)
+class RecipeResolver {
+  @Query(returns => [HackerNews])
+  async news() {
+    return await getNewsServer();
+  }
+}
+
+const schema = await buildSchema({
+  resolvers: [RecipeResolver]
+})
+
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+  schema,
 });
 
 // Typescript: req has the type NextRequest
