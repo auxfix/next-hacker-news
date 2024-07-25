@@ -1,0 +1,12 @@
+ query getNews {
+    news {
+        authorId
+        id
+        img
+        karma
+        num
+        score
+        time
+        title
+    }
+  }
