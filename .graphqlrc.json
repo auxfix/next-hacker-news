@@ -1,3 +1,3 @@
 {
-    "schema": "http://localhost:3000/api/news/graphql"
+    "schema": "http://localhost:3000/api/graphql"
 }

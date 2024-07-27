@@ -7,17 +7,14 @@ import { HackerStory } from '@/types';
 import toast, { Toaster } from 'react-hot-toast';
 import { FaSpinner } from 'react-icons/fa';
 import { AnimatePresence } from 'framer-motion';
-import { getNewsGqlClient } from '@/lib/graphql/queries';
+import { getNewsGql } from '@/lib/graphql/api';
 
 export default function NewsGql() {
-    const { data: news, isRefetching, isLoading, refetch } = useQuery<HackerStory[]>({ 
+    const { data, isRefetching, isLoading } = useQuery({ 
         queryKey: ['newsGql'], 
-        queryFn: getNewsGqlClient,
+        queryFn: async () => await getNewsGql(),
     })
 
-    useEffect(() => {
-        refetch()
-    },[])
 
     useEffect(() => {
         if(isRefetching) {
@@ -52,7 +49,7 @@ export default function NewsGql() {
     return (
         <div className='flex flex-col items-center justify-center'>
             <AnimatePresence>
-                {news?.map(newsItem => (
+                {data?.news.map(newsItem => (
                     <NewsItem key={`${newsItem.id}_${newsItem.authorId}`} newsItem={newsItem} />
                 ))}
             </AnimatePresence>

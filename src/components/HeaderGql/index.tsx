@@ -6,11 +6,12 @@ import { useQuery } from '@tanstack/react-query'
 
 import { HackerStory } from '@/types';
 import { getNewsGqlClient } from '@/lib/graphql/queries';
+import { getNewsGql } from '@/lib/graphql/api';
 
 export default function HeaderGql() {
-  const { refetch } = useQuery<HackerStory[]>({ 
+  const { refetch } = useQuery({ 
     queryKey: ['newsGql'], 
-    queryFn: getNewsGqlClient,
+    queryFn: async () => await getNewsGql(),
   })
   return (
     <header className="inset-x-0 top-0 h-28 bg-darkblue fixed z-50">
