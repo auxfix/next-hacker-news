@@ -23,7 +23,7 @@ interface QueryData {
 
 export const getNewsGqlClient = async () => {
     const { news } = await request<QueryData>(
-        "http://localhost:3000/api/graphql",
+        process.env.GQL_SERVER  + "/api/graphql",
         getNewsQuery
       );
   
