@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import NewsItem from '@/features/news/components/NewsItem';
 import { HackerStory } from '@/types';
 import { getNewsClient } from '@/lib/query/queries'
@@ -14,6 +14,8 @@ export default function News() {
         queryKey: ['news'], 
         queryFn: getNewsClient,
     })
+
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         if(isRefetching) {
@@ -49,7 +51,13 @@ export default function News() {
         <div className='flex flex-col items-center justify-center'>
             <AnimatePresence>
                 {news?.map(newsItem => (
-                    <NewsItem key={`${newsItem.id}_${newsItem.authorId}`} newsItem={newsItem} />
+                    <NewsItem
+                        removeCallback={(newsItemId) => {
+                            queryClient.setQueryData(['news'], (news: HackerStory[]) =>
+                                news.filter((newsItem: HackerStory) => newsItem.id !== newsItemId),
+                              );
+                        }} 
+                        key={`${newsItem.id}_${newsItem.authorId}`} newsItem={newsItem} />
                 ))}
             </AnimatePresence>
             <Toaster />

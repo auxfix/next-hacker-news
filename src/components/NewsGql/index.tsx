@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import NewsItem from '@/features/news/components/NewsItem';
 import { HackerStory } from '@/types';
 import toast, { Toaster } from 'react-hot-toast';
@@ -14,6 +14,8 @@ export default function NewsGql() {
         queryKey: ['newsGql'], 
         queryFn: async () => await getNewsGql(),
     })
+
+    const queryClient = useQueryClient();
 
 
     useEffect(() => {
@@ -50,7 +52,13 @@ export default function NewsGql() {
         <div className='flex flex-col items-center justify-center'>
             <AnimatePresence>
                 {data?.news.map(newsItem => (
-                    <NewsItem key={`${newsItem.id}_${newsItem.authorId}`} newsItem={newsItem} />
+                    <NewsItem
+                        removeCallback={(newsItemId) => {
+                            queryClient.setQueryData(['newsGql'], (data: { news: HackerStory[] }) =>
+                            ({ news: data?.news?.filter((newsItem: HackerStory) => newsItem.id !== newsItemId) }),
+                            );
+                        }}
+                        key={`${newsItem.id}_${newsItem.authorId}`} newsItem={newsItem} />
                 ))}
             </AnimatePresence>
             <Toaster />

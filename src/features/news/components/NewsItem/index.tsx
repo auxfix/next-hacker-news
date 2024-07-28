@@ -1,25 +1,23 @@
 import { getFormattedTimeForNews } from '@/features/news/utils';
 import { HackerStory } from '@/types';
-import { useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import  './newsItem.scss';
 
 interface NewsProps {
   newsItem: HackerStory;
   key: string;
+  removeCallback: (nid: number) => void,
 }
 
 export default function NewsItem(props: NewsProps) {
-  const queryClient = useQueryClient();
-  const { newsItem, key } = props;
+  
+  const { newsItem, key, removeCallback } = props;
   const { id: newsItemId } = newsItem;
   const { monthDateYear, weekDay } = getFormattedTimeForNews(newsItem.time);
 
   const removeNI = useCallback(() => {
-    queryClient.setQueryData(['news'], (news: HackerStory[]) =>
-      news.filter((newsItem: HackerStory) => newsItem.id !== newsItemId),
-    );
+    removeCallback(newsItemId);
   }, [newsItemId]);
 
   return (
