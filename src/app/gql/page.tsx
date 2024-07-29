@@ -1,12 +1,11 @@
 import React from 'react';
-
 import NewsGql from '@/components/NewsGql';
-import HeaderGql from '@/components/HeaderGql';
 import { getSsrQueryClient } from '@/lib/query/getClientQuery';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getNewsServer } from '@/lib/query/queries';
-
-export default async function Gql() { 
+import { Header } from '@/components/Header';
+import StoreProvider from '../StoreProvider';
+export default async function Gql() {
   const queryClient = getSsrQueryClient();
   await queryClient.prefetchQuery({ 
     queryKey: ['newsGql'], 
@@ -18,14 +17,19 @@ export default async function Gql() {
     },
   });
 
+
   const dehydratedState = dehydrate(queryClient);
 
   return (
     <main className='bg-palegray'>
-        <HeaderGql />
+      <StoreProvider>
         <HydrationBoundary state={dehydratedState}>
-          <NewsGql />
-        </HydrationBoundary>
+            <Header 
+              newsType={'gql'}
+            />
+            <NewsGql />
+          </HydrationBoundary>
+      </StoreProvider>
     </main>    
   );
 }

@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import ReduxNews from '@/components/ReduxNews';
 import StoreProvider from '../StoreProvider';
-import ReduxHeader from '@/components/ReduxHeader';
+import { Header }  from '@/components/Header';
 
 export default async function Redux() {
   return (
     <main className='bg-palegray'>
       <StoreProvider>
-        <ReduxHeader />
+        <Header 
+          newsType={'redux'}
+        />
         <ReduxNews />
       </StoreProvider>
     </main>    
