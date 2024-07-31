@@ -4,14 +4,14 @@ import Link from 'next/link'
 import styles from './header.module.scss';
 import { useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getNewsClient } from '@/lib/query/queries';
+import { getAllLatestNewsClient_Light, getNewsClient } from '@/lib/query/queries';
 import { HackerStory } from '@/types';
 import { getNewsGql } from '@/lib/graphql/api';
 import { useAppStore } from '@/lib/redux/hooks';
 import { getNews } from '@/lib/redux/features/news';
 
 interface HeaderProps {
-  newsType: 'main' | 'gql' | 'redux'
+  newsType: 'main' | 'gql' | 'redux' | 'vs'
 }
 
 interface Fetchers { [key: string]: () => any }
@@ -33,10 +33,16 @@ export const Header: React.FC<HeaderProps> = (props) => {
     queryFn: async () => await getNewsGql(),
   })
 
+  const { refetch: vsnews } = useQuery({ 
+    queryKey: ['vsnews'], 
+    queryFn: async () => await getAllLatestNewsClient_Light(),
+  })
+
   const newsFetchers: Fetchers = {
     gql: newsGql,
     main: mainNews, 
-    redux: refetchNewsRedux
+    redux: refetchNewsRedux,
+    vs: vsnews,
   }
 
   const getNewsCb = useCallback(() => {

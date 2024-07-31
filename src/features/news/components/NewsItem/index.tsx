@@ -8,11 +8,20 @@ interface NewsProps {
   newsItem: HackerStory;
   key: string;
   removeCallback: (nid: number) => void,
+  showImage: boolean,
 }
 
-export default function NewsItem(props: NewsProps) {
+NewsItem.defaultProps = {
+  showImage: true,
+}
+
+export default function NewsItem({
+  key, 
+  newsItem, 
+  removeCallback,
+  showImage = true,
+}: NewsProps) {
   
-  const { newsItem, key, removeCallback } = props;
   const { id: newsItemId } = newsItem;
   const { monthDateYear, weekDay } = getFormattedTimeForNews(newsItem.time);
 
