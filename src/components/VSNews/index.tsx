@@ -13,7 +13,7 @@ export default function VSNews() {
     const [ numberOfNews, setNumberOfNews ] = useState(5);
     const { data: news, isRefetching, isLoading } = useQuery<HackerStory[]>({ 
         queryKey: ['vs_news'], 
-        queryFn: async () => await getAllLatestNewsClient_Light(numberOfNews),
+        queryFn: async () => await getAllLatestNewsClient_Light(numberOfNews || 5),
     })
 
     const queryClient = useQueryClient();
