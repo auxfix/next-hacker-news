@@ -12,7 +12,7 @@ import { AnimatePresence } from 'framer-motion';
 export default function VSNews() {
     const [ numberOfNews, setNumberOfNews ] = useState(5);
     const { data: news, isRefetching, isLoading } = useQuery<HackerStory[]>({ 
-        queryKey: ['vs_news'], 
+        queryKey: ['vsnews'], 
         queryFn: async () => await getAllLatestNewsClient_Light(numberOfNews || 5),
     })
 

@@ -35,7 +35,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
 
   const { refetch: vsnews } = useQuery({ 
     queryKey: ['vsnews'], 
-    queryFn: async () => await getAllLatestNewsClient_Light(),
+    queryFn: async () => await getAllLatestNewsClient_Light(5),
   })
 
   const newsFetchers: Fetchers = {

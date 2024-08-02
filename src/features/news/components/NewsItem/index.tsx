@@ -41,11 +41,11 @@ export default function NewsItem({
           opacity: 0,
           transition: { duration: 0.2 },
         }}
-        className='news-item-container' 
+        className={'news-item-container' + (showImage ?  '' :' w-1/3')} 
         data-testid="NewsItem"
       >
-        <img alt="News cover" className='news-item-image' src={newsItem.img as string} />
-        <div className='w-full'>
+        {showImage && <img alt="News cover" className='news-item-image' src={newsItem.img as string} />}
+        <div className={'w-full'}>
           <div>
             <span className='time-span'>{`# ${newsItem.num}`}</span>
             <span className='time-span' data-testid="day">{weekDay}</span>
