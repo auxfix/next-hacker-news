@@ -50,7 +50,12 @@ export default function VSNews() {
 
     return (
         <div className='flex flex-col items-center justify-center'>
-            <input type='number' value={numberOfNews} onChange={(event) => setNumberOfNews(+event.target.value)}/>
+            <input 
+                type='number'
+                className='text-xl w-[17rem] h-[4rem] p-5 mt-4 border-solid border-2 border-sky-500 '
+                value={numberOfNews} 
+                onChange={(event) => setNumberOfNews(+event.target.value)}
+            />
             <AnimatePresence>
                 {news?.map(newsItem => (
                     <NewsItem
