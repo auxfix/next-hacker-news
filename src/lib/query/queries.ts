@@ -49,6 +49,7 @@ export const getNewsClient = async () => {
 
 export const getAllLatestNewsClient_Light = async (countOfNews: number) => {
   const topNews = await fetch(process.env.HACKER_API + '/topstories.json').then(data => data.json());
+  const allNewsCount = topNews.length;
   const topNewsToGet = topNews.slice(0, countOfNews);
   let newsIndex = 0;
 
@@ -61,5 +62,5 @@ export const getAllLatestNewsClient_Light = async (countOfNews: number) => {
     internalNews.push(newsItem);
   }
 
-  return internalNews;
+  return { allNewsCount, news: internalNews };
 }

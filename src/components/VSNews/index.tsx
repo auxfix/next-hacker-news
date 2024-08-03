@@ -9,9 +9,14 @@ import toast, { Toaster } from 'react-hot-toast';
 import { FaSpinner } from 'react-icons/fa';
 import { AnimatePresence } from 'framer-motion';
 
+interface NewsQueryResult {
+    allNewsCount: number;  
+    news: HackerStory[]
+}
+
 export default function VSNews() {
     const [ numberOfNews, setNumberOfNews ] = useState(5);
-    const { data: news, isRefetching, isLoading } = useQuery<HackerStory[]>({ 
+    const { data, isRefetching, isLoading } = useQuery<NewsQueryResult>({ 
         queryKey: ['vsnews'], 
         queryFn: async () => await getAllLatestNewsClient_Light(numberOfNews || 5),
     })
@@ -56,8 +61,9 @@ export default function VSNews() {
                 value={numberOfNews} 
                 onChange={(event) => setNumberOfNews(+event.target.value)}
             />
+            <p>Totall news on server: {data?.allNewsCount}</p>
             <AnimatePresence>
-                {news?.map(newsItem => (
+                {data?.news?.map(newsItem => (
                     <NewsItem
                         showImage={false}
                         removeCallback={(newsItemId) => {
