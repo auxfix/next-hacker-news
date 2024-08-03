@@ -8,6 +8,7 @@ import News from '@/components/News';
 import { getNewsServer } from '@/lib/query/queries'
 import { getNewsGql } from '@/lib/graphql/api';
 import StoreProvider from './StoreProvider';
+import { DefaultProviders } from '@/lib/providers';
 export default async function Home() {
   const queryClient = getSsrQueryClient();
 
@@ -24,15 +25,17 @@ export default async function Home() {
 
   return (
     <main className='bg-palegray'>
-      <StoreProvider>
-        <HydrationBoundary state={dehydratedState}>
-          <Header
-            newsType={'main'}
-          />
+      <DefaultProviders>
+        <StoreProvider>
+          <HydrationBoundary state={dehydratedState}>
+            <Header
+              newsType={'main'}
+            />
 
-          <News />
-        </HydrationBoundary>
-      </StoreProvider>
+            <News />
+          </HydrationBoundary>
+        </StoreProvider>
+      </DefaultProviders>
     </main>    
   );
 }

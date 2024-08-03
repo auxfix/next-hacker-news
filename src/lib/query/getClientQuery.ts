@@ -23,3 +23,12 @@ export const getQueryClient = () => new QueryClient({
     }
   }}
 )
+
+export const getVsQueryClient = () => new QueryClient({
+  defaultOptions: {  
+    queries: {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  }}
+)
