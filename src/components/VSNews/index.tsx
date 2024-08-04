@@ -61,13 +61,20 @@ export default function VSNews() {
 
     return (
         <div className='flex flex-col items-center justify-center'>
-            <input 
-                type='number'
-                className='text-xl w-[17rem] h-[4rem] p-5 mt-4 border-solid border-2 border-sky-500 '
-                value={newsCount} 
-                onChange={updateNewsCount}
-            />
-            <p>Totall news on server: {data?.allNewsCount}</p>
+            <div className="rounded-xl shadow-xl flex flex-col items-center justify-center p-6 bg-gray-100 w-1/3 mt-6">
+                <input 
+                    type="number"
+                    min={1}
+                    max={500}
+                    step={5}
+                    className="text-xl w-72 h-16 p-4 mt-4 border-2 border-sky-500 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent"
+                    value={newsCount} 
+                    onChange={updateNewsCount}
+                />
+                <p className="mt-4 text-xl text-gray-700">
+                    Total news on server: {data?.allNewsCount}
+                </p>
+            </div>
             <AnimatePresence>
                 {data?.news?.map(newsItem => (
                     <NewsItem
