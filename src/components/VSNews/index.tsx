@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import NewsItem from '@/features/news/components/NewsItem';
 import { HackerStory } from '@/types';
@@ -8,6 +8,8 @@ import { getAllLatestNewsClient_Light } from '@/lib/query/queries'
 import toast, { Toaster } from 'react-hot-toast';
 import { FaSpinner } from 'react-icons/fa';
 import { AnimatePresence } from 'framer-motion';
+import { useAppSelector, useAppStore } from '@/lib/redux/hooks';
+import { getNews, getNewsCountSelector, setNewsCount } from '@/lib/redux/features/news';
 
 interface NewsQueryResult {
     allNewsCount: number;  
@@ -15,13 +17,17 @@ interface NewsQueryResult {
 }
 
 export default function VSNews() {
-    const [ numberOfNews, setNumberOfNews ] = useState(5);
+    const queryClient = useQueryClient();
+    const store = useAppStore();
+    const newsCount = useAppSelector(getNewsCountSelector);
     const { data, isRefetching, isLoading } = useQuery<NewsQueryResult>({ 
         queryKey: ['vsnews'], 
-        queryFn: async () => await getAllLatestNewsClient_Light(numberOfNews || 5),
+        queryFn: async () => await getAllLatestNewsClient_Light(newsCount),
     })
 
-    const queryClient = useQueryClient();
+    const updateNewsCount = useCallback((event:React.ChangeEvent<HTMLInputElement>) => {
+        store.dispatch(setNewsCount(+event.target.value))
+    },[])
 
     useEffect(() => {
         if(isRefetching) {
@@ -58,8 +64,8 @@ export default function VSNews() {
             <input 
                 type='number'
                 className='text-xl w-[17rem] h-[4rem] p-5 mt-4 border-solid border-2 border-sky-500 '
-                value={numberOfNews} 
-                onChange={(event) => setNumberOfNews(+event.target.value)}
+                value={newsCount} 
+                onChange={updateNewsCount}
             />
             <p>Totall news on server: {data?.allNewsCount}</p>
             <AnimatePresence>
@@ -67,7 +73,7 @@ export default function VSNews() {
                     <NewsItem
                         showImage={false}
                         removeCallback={(newsItemId) => {
-                            queryClient.setQueryData(['news'], (news: HackerStory[]) =>
+                            queryClient.setQueryData(['vsnews'], (news: HackerStory[]) =>
                                 news.filter((newsItem: HackerStory) => newsItem.id !== newsItemId),
                               );
                         }} 

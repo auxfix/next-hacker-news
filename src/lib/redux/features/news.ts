@@ -15,13 +15,16 @@ export const getNews = createAsyncThunk(
 
 
 interface NewsState {
-  news: HackerStory[]
+  news: HackerStory[],
+  vsnewscount: number,
   loading: boolean,
 }
 
 
 const initialState: NewsState = {
-    news: [], loading: true,
+    news: [], 
+    loading: true, 
+    vsnewscount: 5
 }
 
 export const newsSlice = createSlice({
@@ -30,6 +33,9 @@ export const newsSlice = createSlice({
   reducers: {
     removeNewsItem(state, action: PayloadAction<number>) {
       state.news = state.news.filter(n => n.id !== action.payload);
+    },
+    setNewsCount(state, action: PayloadAction<number>) {
+      state.vsnewscount = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -44,9 +50,11 @@ export const newsSlice = createSlice({
 
 })
 
-export const { removeNewsItem } = newsSlice.actions
+export const { removeNewsItem, setNewsCount } = newsSlice.actions
 
 export const getNewsSelector = (state: RootState) => state.news.news;
 export const getNewsLoadingSelector = (state: RootState) => state.news.loading;
+export const getNewsCountSelector = (state: RootState) => state.news.vsnewscount;
+
 
 export default newsSlice.reducer;

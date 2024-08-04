@@ -7,8 +7,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllLatestNewsClient_Light, getNewsClient } from '@/lib/query/queries';
 import { HackerStory } from '@/types';
 import { getNewsGql } from '@/lib/graphql/api';
-import { useAppStore } from '@/lib/redux/hooks';
-import { getNews } from '@/lib/redux/features/news';
+import { useAppSelector, useAppStore } from '@/lib/redux/hooks';
+import { getNews, getNewsCountSelector } from '@/lib/redux/features/news';
 
 interface HeaderProps {
   newsType: 'main' | 'gql' | 'redux' | 'vs'
@@ -19,8 +19,8 @@ interface Fetchers { [key: string]: () => any }
 
 export const Header: React.FC<HeaderProps> = (props) => {
   const { newsType } = props;
-
   const store = useAppStore();
+  const newsCount = useAppSelector(getNewsCountSelector);
   const refetchNewsRedux = useCallback(() => {store.dispatch(getNews())}, []);
 
   const { refetch: mainNews } = useQuery<HackerStory[]>({ 
@@ -35,7 +35,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
 
   const { refetch: vsnews } = useQuery({ 
     queryKey: ['vsnews'], 
-    queryFn: async () => await getAllLatestNewsClient_Light(5),
+    queryFn: async () => await getAllLatestNewsClient_Light(newsCount),
   })
 
   const newsFetchers: Fetchers = {
@@ -53,7 +53,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
   return (
     <header className="inset-x-0 top-0 h-28 bg-darkblue fixed z-50">
       <div className={styles.container}>
-        <Button onClick={getNewsCb}>{`Get more news (${newsType})`}</Button>    
+        <Button onClick={getNewsCb}>{`Get more news (${newsType})${newsType == 'vs' && '- vscount('+ newsCount +')'}`}</Button>    
       </div>
       <div className='absolute top-10 right-12'>
         <Link className='text-white font-bold text-2xl hover:underline' href="/dev">dev</Link>
