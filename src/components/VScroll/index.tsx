@@ -66,12 +66,12 @@ export default function VScroll() {
                     onChange={updateNewsCount}
                 />
             </div>
-            <AnimatePresence>
+            <div className='h-[75vh] w-1/3 overflow-y-auto mt-10 shadow-xl rounded-xl'>
                 {scrollList?.listItems?.map(listItem => (
                     <ScrollItem
                         key={listItem.index} title={listItem.title} />
                 ))}
-            </AnimatePresence>
+            </div>
             <Toaster />
         </div>
     )
