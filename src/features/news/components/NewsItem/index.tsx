@@ -6,7 +6,6 @@ import  './newsItem.scss';
 
 interface NewsProps {
   newsItem: HackerStory;
-  key: string;
   removeCallback: (nid: number) => void,
   showImage: boolean,
 }
@@ -16,7 +15,6 @@ NewsItem.defaultProps = {
 }
 
 export default function NewsItem({
-  key, 
   newsItem, 
   removeCallback,
   showImage = true,
@@ -31,7 +29,6 @@ export default function NewsItem({
 
   return (
       <motion.div
-        key={key}
         whileHover={{
           scale: 1.06,
           transition: { duration: 0.2 },

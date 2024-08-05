@@ -64,3 +64,14 @@ export const getAllLatestNewsClient_Light = async (countOfNews: number) => {
 
   return { allNewsCount, news: internalNews };
 }
+
+export const generateNewsItems = (countOfNews: number) => {
+  let listItems = new Array(countOfNews).fill(0).map((_, index) =>{
+    return {
+      index,
+      title: `Super tech advanced piace of news #: ${index}`
+    }
+
+  })
+  return { listItems };
+}

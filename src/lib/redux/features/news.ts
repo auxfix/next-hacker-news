@@ -18,13 +18,15 @@ interface NewsState {
   news: HackerStory[],
   vsnewscount: number,
   loading: boolean,
+  listItemsCount: number,
 }
 
 
 const initialState: NewsState = {
     news: [], 
     loading: true, 
-    vsnewscount: 5
+    vsnewscount: 5,
+    listItemsCount: 200,
 }
 
 export const newsSlice = createSlice({
@@ -36,6 +38,9 @@ export const newsSlice = createSlice({
     },
     setNewsCount(state, action: PayloadAction<number>) {
       state.vsnewscount = action.payload;
+    },
+    setListItemsCount(state, action: PayloadAction<number>) {
+      state.listItemsCount = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -50,11 +55,12 @@ export const newsSlice = createSlice({
 
 })
 
-export const { removeNewsItem, setNewsCount } = newsSlice.actions
+export const { removeNewsItem, setNewsCount, setListItemsCount } = newsSlice.actions
 
 export const getNewsSelector = (state: RootState) => state.news.news;
 export const getNewsLoadingSelector = (state: RootState) => state.news.loading;
 export const getNewsCountSelector = (state: RootState) => state.news.vsnewscount;
+export const getListItemstCountSelector = (state: RootState) => state.news.listItemsCount;
 
 
 export default newsSlice.reducer;
