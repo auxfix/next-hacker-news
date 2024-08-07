@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { generateNewsItems } from '@/lib/query/queries'
 import toast, { Toaster } from 'react-hot-toast';
@@ -14,6 +14,7 @@ import ScrollItem from '@/features/news/components/ListItem';
 export default function VScroll() {
     const store = useAppStore();
     const scrollItemsCount = useAppSelector(getListItemstCountSelector);
+    const [ scrollTag, setScrollTag ] = useState(5);
     const { data: scrollList, isRefetching, isLoading } = useQuery({ 
         queryKey: ['vscroll'], 
         queryFn: () => generateNewsItems(scrollItemsCount),
@@ -22,6 +23,10 @@ export default function VScroll() {
     const updateNewsCount = useCallback((event:React.ChangeEvent<HTMLInputElement>) => {
         store.dispatch(setListItemsCount(+event.target.value))
     },[])
+
+    const setScrollTagHandler = useCallback((event:React.ChangeEvent<HTMLInputElement>) => {
+        setScrollTag(+event.target.value);
+    }, [])
 
     useEffect(() => {
         if(isRefetching) {
@@ -55,16 +60,31 @@ export default function VScroll() {
 
     return (
         <div className='flex flex-col items-center justify-center'>
-            <div className="rounded-xl shadow-xl flex flex-col items-center justify-center p-6 bg-gray-100 w-1/3 mt-6">
-                <input 
-                    type="number"
-                    min={1}
-                    max={500}
-                    step={5}
-                    className="text-xl w-72 h-16 p-4 mt-4 border-2 border-sky-500 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent"
-                    value={scrollItemsCount} 
-                    onChange={updateNewsCount}
-                />
+            <div className="rounded-xl shadow-xl flex items-center justify-around p-6 bg-gray-100 w-1/3 mt-6">
+                <section className='flex flex-col'>
+                    <label className='text-xl'>List size</label>
+                    <input
+                        type="number"
+                        min={1}
+                        max={scrollList?.listItems.length}
+                        step={5}
+                        className="text-xl w-72 h-16 p-4 mt-4 border-2 border-sky-500 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent"
+                        value={scrollItemsCount} 
+                        onChange={setScrollTagHandler}
+                    />
+                </section>
+                <section className='flex flex-col'>
+                    <label className='text-xl'>Scroll to:</label>
+                    <input 
+                        type="number"
+                        min={1}
+                        max={scrollList?.listItems.length}
+                        step={5}
+                        className="text-xl w-72 h-16 p-4 mt-4 border-2 border-sky-500 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent"
+                        value={scrollTag} 
+                        onChange={updateNewsCount}
+                    />
+                </section>
             </div>
             <div className='h-[75vh] w-1/3 overflow-y-auto mt-10 shadow-xl rounded-xl'>
                 {scrollList?.listItems?.map(listItem => (
