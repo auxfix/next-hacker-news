@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+  .button-common-1 {
+    @apply appearance-none bg-transparent bg-gradient-to-r from-bluegradientstart to-bluegradientend rounded-xl h-16
+  }
+  .button-common-2 {
+    @apply text-white cursor-pointer inline-block text-xl tracking-widest leading-4 px-8 no-underline uppercase transition-shadow
+  }
+
+  .button-simple {
+    @apply button-common-1 button-common-2 shadow-xl;
+  }
+}
+
