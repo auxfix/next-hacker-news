@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { generateNewsItems } from '@/lib/query/queries'
 import toast, { Toaster } from 'react-hot-toast';
@@ -12,6 +12,7 @@ import Button from '../SimpleButton';
 
 
 export default function VScroll() {
+    const scrollRef = useRef<HTMLDivElement>(null)
     const store = useAppStore();
     const scrollItemsCount = useAppSelector(getListItemstCountSelector);
     const [ scrollTag, setScrollTag ] = useState(5);
@@ -44,6 +45,23 @@ export default function VScroll() {
             toast.remove();
         }       
     }, [isRefetching])
+
+    useEffect(() => {
+        console.log('scrollRef:', scrollRef.current); // Debugging: Log the ref to ensure it's not undefined
+    }, [scrollRef]);
+
+    const handleScroll = () => {
+        if (scrollRef.current) {
+            const targetElement = scrollRef.current.querySelector(`#i${scrollTag}`);
+            if (targetElement) {
+                targetElement.scrollIntoView();
+            } else {
+                console.error(`Element with ID ${scrollTag} not found.`);
+            }
+        } else {
+            console.error('scrollRef is undefined.');
+        }
+    };
 
     if (isLoading) {
         return (
@@ -87,14 +105,20 @@ export default function VScroll() {
                             value={scrollTag} 
                             onChange={setScrollTagHandler}
                         />
-                        <Button onClick={() =>{}}>Scroll</Button>
+                        <Button onClick={handleScroll}>Scroll</Button>
                     </div>
                 </section>
             </div>
-            <div className='h-[75vh] w-1/3 overflow-y-auto mt-10 shadow-xl rounded-xl'>
+            <div 
+                ref={scrollRef}
+                className='h-[75vh] w-1/3 overflow-y-auto mt-10 shadow-xl rounded-xl'
+            >
                 {scrollList?.listItems?.map(listItem => (
                     <ScrollItem
-                        key={listItem.index} title={listItem.title} />
+                        id={listItem.index}
+                        key={listItem.index} 
+                        title={listItem.title} 
+                    />
                 ))}
             </div>
             <Toaster />
