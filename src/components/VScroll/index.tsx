@@ -78,7 +78,7 @@ export default function VScroll() {
 
     return (
         <div className='flex flex-col items-center justify-center'>
-            <div className="rounded-xl shadow-xl flex items-center justify-around p-6 bg-gray-100 w-1/3 mt-6">
+            <div className="rounded-xl shadow-xl flex items-center justify-around p-6 bg-gray-100 w-1/3 mt-6 min-w-[60rem]">
                 <section className='flex flex-col'>
                     <label className='text-xl'>List size:</label>
                     <input
@@ -111,7 +111,7 @@ export default function VScroll() {
             </div>
             <div 
                 ref={scrollRef}
-                className='h-[75vh] w-1/3 overflow-y-auto mt-10 shadow-xl rounded-xl'
+                className='h-[75vh] w-1/3 min-w-[60rem] overflow-y-auto mt-10 shadow-xl rounded-xl'
             >
                 {scrollList?.listItems?.map(listItem => (
                     <ScrollItem
