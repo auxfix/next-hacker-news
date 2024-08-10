@@ -54,7 +54,7 @@ export default function VScroll() {
         if (scrollRef.current) {
             const targetElement = scrollRef.current.querySelector(`#i${scrollTag}`);
             if (targetElement) {
-                targetElement.scrollIntoView();
+                targetElement.scrollIntoView({ behavior: 'smooth' });
             } else {
                 console.error(`Element with ID ${scrollTag} not found.`);
             }
