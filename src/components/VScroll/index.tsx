@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState, useRef } from 'react'
+import { useCallback, useEffect, useState, useRef, useLayoutEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { generateNewsItems } from '@/lib/query/queries'
 import toast, { Toaster } from 'react-hot-toast';
@@ -9,6 +9,10 @@ import { useAppSelector, useAppStore } from '@/lib/redux/hooks';
 import { getListItemstCountSelector, setListItemsCount } from '@/lib/redux/features/news';
 import ScrollItem from '@/features/news/components/ListItem';
 import Button from '../SimpleButton';
+
+
+const itemHeight = 50;
+const containerHeight = 600;
 
 
 export default function VScroll() {
@@ -63,6 +67,27 @@ export default function VScroll() {
         }
     };
 
+    //-------------------------------------------
+    // scroll block
+    const [scrollTop, setScrollTop] = useState(0);
+
+    useLayoutEffect(() => {
+        const scrollElement = scrollRef.current;
+        
+        if(!scrollElement) { return; }
+
+        const handleScroll = () => {
+            const scrollTop = scrollElement.scrollTop;          
+            setScrollTop(scrollTop);
+        }
+
+        handleScroll();
+
+        scrollElement.addEventListener('scroll', handleScroll);
+
+        return () => scrollElement.removeEventListener('scroll', handleScroll);
+    },[])
+
     if (isLoading) {
         return (
           <div>
@@ -78,6 +103,7 @@ export default function VScroll() {
 
     return (
         <div className='flex flex-col items-center justify-center'>
+            <p className='text-xl'>scroll top: {scrollTop}</p>
             <div className="rounded-xl shadow-xl flex items-center justify-around p-6 bg-gray-100 w-1/3 mt-6 min-w-[60rem]">
                 <section className='flex flex-col'>
                     <label className='text-xl'>List size:</label>
@@ -111,7 +137,7 @@ export default function VScroll() {
             </div>
             <div 
                 ref={scrollRef}
-                className='h-[75vh] w-1/3 min-w-[60rem] overflow-y-auto mt-10 shadow-xl rounded-xl'
+                className='h-[600px] w-1/3 min-w-[60rem] overflow-y-auto mt-10 shadow-xl rounded-xl'
             >
                 {scrollList?.listItems?.map(listItem => (
                     <ScrollItem
