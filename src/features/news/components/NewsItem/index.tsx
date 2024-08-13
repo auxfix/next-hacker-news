@@ -10,9 +10,6 @@ interface NewsProps {
   showImage: boolean,
 }
 
-NewsItem.defaultProps = {
-  showImage: true,
-}
 
 export default function NewsItem({
   newsItem, 

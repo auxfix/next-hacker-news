@@ -20,6 +20,11 @@ export default function VScroll() {
     const store = useAppStore();
     const scrollItemsCount = useAppSelector(getListItemstCountSelector);
     const [ scrollTag, setScrollTag ] = useState(5);
+
+    useEffect(() => {
+        setScrollTop(0); // ref hack-fix/work-around
+    }, []);
+
     const { data: scrollList, isRefetching, isLoading } = useQuery({ 
         queryKey: ['vscroll'], 
         queryFn: () => generateNewsItems(scrollItemsCount),
@@ -50,9 +55,10 @@ export default function VScroll() {
         }       
     }, [isRefetching])
 
-    useEffect(() => {
-        console.log('scrollRef:', scrollRef.current); // Debugging: Log the ref to ensure it's not undefined
-    }, [scrollRef]);
+    useLayoutEffect(() => {
+        console.log('scrollRef:', scrollRef); // Debugging: Log the ref to ensure it's not undefined
+        console.log('scrollRef.current:', scrollRef.current); // Debugging: Log the ref to ensure it's not undefined
+    }, [scrollRef, scrollRef.current]);
 
     const handleScroll = () => {
         if (scrollRef.current) {
@@ -86,7 +92,7 @@ export default function VScroll() {
         scrollElement.addEventListener('scroll', handleScroll);
 
         return () => scrollElement.removeEventListener('scroll', handleScroll);
-    },[])
+    },[scrollRef, scrollRef.current])
 
     if (isLoading) {
         return (
