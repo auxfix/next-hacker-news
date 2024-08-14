@@ -14,16 +14,16 @@ import Button from '../SimpleButton';
 const itemHeight = 50;
 const containerHeight = 600;
 
+function isNumeric(num: any){
+    return !isNaN(num)
+  }
+
 
 export default function VScroll() {
-    const scrollRef = useRef<HTMLDivElement>(null)
+    const scrollRef = useRef<HTMLDivElement>(null);
     const store = useAppStore();
     const scrollItemsCount = useAppSelector(getListItemstCountSelector);
-    const [ scrollTag, setScrollTag ] = useState(5);
-
-    useEffect(() => {
-        setScrollTop(0); // ref hack-fix/work-around
-    }, []);
+    const [ scrollTag, setScrollTag ] = useState('5');
 
     const { data: scrollList, isRefetching, isLoading } = useQuery({ 
         queryKey: ['vscroll'], 
@@ -35,7 +35,12 @@ export default function VScroll() {
     },[])
 
     const setScrollTagHandler = useCallback((event:React.ChangeEvent<HTMLInputElement>) => {
-        setScrollTag(+event.target.value);
+        const inputValue = event.target.value;
+    
+        // Allow the input to be empty or a valid number
+        if (inputValue === "" || /^\d*$/.test(inputValue)) {
+            setScrollTag(event.target.value);
+        }
     }, [])
 
     useEffect(() => {
@@ -61,7 +66,7 @@ export default function VScroll() {
     }, [scrollRef, scrollRef.current]);
 
     const handleScroll = () => {
-        if (scrollRef.current) {
+        if (scrollRef.current && isNumeric(scrollTag)) {
             const targetElement = scrollRef.current.querySelector(`#i${scrollTag}`);
             if (targetElement) {
                 targetElement.scrollIntoView({ behavior: 'smooth' });
@@ -92,7 +97,7 @@ export default function VScroll() {
         scrollElement.addEventListener('scroll', handleScroll);
 
         return () => scrollElement.removeEventListener('scroll', handleScroll);
-    },[scrollRef, scrollRef.current])
+    },[scrollRef, scrollRef.current, isLoading])
 
     if (isLoading) {
         return (
@@ -116,7 +121,7 @@ export default function VScroll() {
                     <input
                         type="number"
                         name='count'
-                        min={1}
+                        min={0}
                         max={scrollList?.listItems.length}
                         step={5}
                         className="text-xl w-72 h-16 p-4 mt-4 mb-3 border-2 border-sky-500 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent"
@@ -128,9 +133,9 @@ export default function VScroll() {
                     <label className='text-xl'>Scroll to:</label>
                     <div className='flex justify-between w-[30rem] items-center'>
                         <input 
-                            type="number"
+                            type="text"
                             name='scrollto'
-                            min={1}
+                            min={0}
                             max={scrollList?.listItems.length}
                             step={1}
                             className="text-xl w-72 h-16 p-4 mt-4 mb-3 border-2 border-sky-500 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent"

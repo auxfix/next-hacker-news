@@ -52,6 +52,7 @@ export default function News() {
             <AnimatePresence>
                 {news?.map(newsItem => (
                     <NewsItem
+                        showImage={true}
                         removeCallback={(newsItemId) => {
                             queryClient.setQueryData(['news'], (news: HackerStory[]) =>
                                 news.filter((newsItem: HackerStory) => newsItem.id !== newsItemId),
