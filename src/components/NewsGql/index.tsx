@@ -53,6 +53,7 @@ export default function NewsGql() {
             <AnimatePresence>
                 {data?.news.map(newsItem => (
                     <NewsItem
+                        showImage={true}
                         removeCallback={(newsItemId) => {
                             queryClient.setQueryData(['newsGql'], (data: { news: HackerStory[] }) =>
                             ({ news: data?.news?.filter((newsItem: HackerStory) => newsItem.id !== newsItemId) }),
