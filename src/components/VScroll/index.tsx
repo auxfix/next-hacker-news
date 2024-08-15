@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState, useRef, useLayoutEffect } from 'react'
+import { useCallback, useEffect, useState, useRef, useLayoutEffect, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { generateNewsItems } from '@/lib/query/queries'
 import toast, { Toaster } from 'react-hot-toast';
@@ -99,6 +99,17 @@ export default function VScroll() {
         return () => scrollElement.removeEventListener('scroll', handleScroll);
     },[scrollRef, scrollRef.current, isLoading])
 
+    const [ startIndex, endIndex ] = useMemo(() => {
+        let rangeStart = scrollTop;
+        let rangeEnd = scrollTop + containerHeight;
+        let startIndex = Math.floor(rangeStart / itemHeight);
+        let endIndex = Math.ceil(rangeEnd / itemHeight);
+
+        return [ startIndex, endIndex ];
+    }, [scrollTop])
+
+    console.log(startIndex, endIndex)
+
     if (isLoading) {
         return (
           <div>
@@ -150,7 +161,7 @@ export default function VScroll() {
                 ref={scrollRef}
                 className='h-[600px] w-1/3 min-w-[60rem] overflow-y-auto mt-10 shadow-xl rounded-xl'
             >
-                {scrollList?.listItems?.map(listItem => (
+                {scrollList?.listItems?.filter((_, index) => (startIndex <= index) && (index <= endIndex)).map(listItem => (
                     <ScrollItem
                         id={listItem.index}
                         key={listItem.index} 
