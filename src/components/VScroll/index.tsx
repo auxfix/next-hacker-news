@@ -11,7 +11,7 @@ import ScrollItem from '@/features/news/components/ListItem';
 import Button from '../SimpleButton';
 
 
-const itemHeight = 50;
+const itemHeight = 62.5;
 const containerHeight = 600;
 
 function isNumeric(num: any){
@@ -102,8 +102,9 @@ export default function VScroll() {
     const [ startIndex, endIndex ] = useMemo(() => {
         let rangeStart = scrollTop;
         let rangeEnd = scrollTop + containerHeight;
+        console.log(rangeStart, rangeEnd, rangeStart / itemHeight, rangeEnd / itemHeight);
         let startIndex = Math.floor(rangeStart / itemHeight);
-        let endIndex = Math.ceil(rangeEnd / itemHeight);
+        let endIndex = Math.ceil(rangeEnd / itemHeight) + 3;
 
         return [ startIndex, endIndex ];
     }, [scrollTop])
@@ -161,7 +162,7 @@ export default function VScroll() {
                 ref={scrollRef}
                 className='h-[600px] w-1/3 min-w-[60rem] overflow-y-auto mt-10 shadow-xl rounded-xl'
             >
-                {scrollList?.listItems?.filter((_, index) => (startIndex <= index) && (index <= endIndex)).map(listItem => (
+                {scrollList?.listItems?.map(listItem => (
                     <ScrollItem
                         id={listItem.index}
                         key={listItem.index} 
