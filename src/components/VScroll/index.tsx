@@ -13,6 +13,7 @@ import Button from '../SimpleButton';
 
 const itemHeight = 62.5;
 const containerHeight = 600;
+const overscan = 2;
 
 function isNumeric(num: any){
     return !isNaN(num)
@@ -99,17 +100,31 @@ export default function VScroll() {
         return () => scrollElement.removeEventListener('scroll', handleScroll);
     },[scrollRef, scrollRef.current, isLoading])
 
-    const [ startIndex, endIndex ] = useMemo(() => {
+    const virtualItems = useMemo(() => {
         let rangeStart = scrollTop;
         let rangeEnd = scrollTop + containerHeight;
         console.log(rangeStart, rangeEnd, rangeStart / itemHeight, rangeEnd / itemHeight);
         let startIndex = Math.floor(rangeStart / itemHeight);
         let endIndex = Math.ceil(rangeEnd / itemHeight) + 3;
 
-        return [ startIndex, endIndex ];
-    }, [scrollTop])
+        startIndex = Math.max(0, startIndex - overscan);
+        endIndex = Math.min(scrollList?.listItems?.length! - 1, endIndex + overscan);
 
-    console.log(startIndex, endIndex)
+        let virtualItems = [];
+
+        for(let i = startIndex; i < endIndex; i++) {
+            virtualItems.push({
+                index: i,
+                offset: i * itemHeight,
+            })
+        }
+
+        return virtualItems;
+    }, [scrollTop, scrollList?.listItems?.length])
+
+    const totalListHeight = scrollList?.listItems?.length! * itemHeight;
+
+    console.log(virtualItems)
 
     if (isLoading) {
         return (
@@ -162,13 +177,23 @@ export default function VScroll() {
                 ref={scrollRef}
                 className='h-[600px] w-1/3 min-w-[60rem] overflow-y-auto mt-10 shadow-xl rounded-xl'
             >
-                {scrollList?.listItems?.map(listItem => (
-                    <ScrollItem
-                        id={listItem.index}
-                        key={listItem.index} 
-                        title={listItem.title} 
-                    />
-                ))}
+                <div style={{ height: totalListHeight, position: 'relative' }}>
+                  {
+                    virtualItems?.map(vi => {
+                        let item = scrollList?.listItems![vi.index]!;
+                        return (<ScrollItem
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                transform: `translateY(${vi.offset}px)`
+                                }}
+                            id={item.index}
+                            key={item.index} 
+                            title={item.title} 
+                        />) 
+                    })
+                  }
+                </div>
             </div>
             <Toaster />
         </div>
