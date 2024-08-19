@@ -14,6 +14,7 @@ import Button from '../SimpleButton';
 const itemHeight = 62.5;
 const containerHeight = 600;
 const overscan = 2;
+const scrollTimout = 100;
 
 function isNumeric(num: any){
     return !isNaN(num)
@@ -25,6 +26,7 @@ export default function VScroll() {
     const store = useAppStore();
     const scrollItemsCount = useAppSelector(getListItemstCountSelector);
     const [ scrollTag, setScrollTag ] = useState('5');
+    const [ isScrolling, setIsScrolling ] = useState(false);
 
     const { data: scrollList, isRefetching, isLoading } = useQuery({ 
         queryKey: ['vscroll'], 
@@ -100,10 +102,34 @@ export default function VScroll() {
         return () => scrollElement.removeEventListener('scroll', handleScroll);
     },[scrollRef, scrollRef.current, isLoading])
 
+    useEffect(() => {
+        const scrollElement = scrollRef.current;
+        
+        if(!scrollElement) { return; }
+
+        let timoutId: any = null;
+        const handleScroll = () => {
+            setIsScrolling(true);
+            if(timoutId) { clearTimeout(timoutId); }
+            timoutId = setTimeout(() => {
+                setIsScrolling(false); 
+            }, scrollTimout)
+        }
+
+        handleScroll();
+
+        scrollElement.addEventListener('scroll', handleScroll);
+
+        return () => {
+            setIsScrolling(false); 
+            scrollElement.removeEventListener('scroll', handleScroll);
+        }
+    },[])
+
     const virtualItems = useMemo(() => {
         let rangeStart = scrollTop;
         let rangeEnd = scrollTop + containerHeight;
-        console.log(rangeStart, rangeEnd, rangeStart / itemHeight, rangeEnd / itemHeight);
+        //console.log(rangeStart, rangeEnd, rangeStart / itemHeight, rangeEnd / itemHeight);
         let startIndex = Math.floor(rangeStart / itemHeight);
         let endIndex = Math.ceil(rangeEnd / itemHeight) + 3;
 
@@ -112,7 +138,7 @@ export default function VScroll() {
 
         let virtualItems = [];
 
-        for(let i = startIndex; i < endIndex; i++) {
+        for(let i = startIndex; i <= endIndex; i++) {
             virtualItems.push({
                 index: i,
                 offset: i * itemHeight,
@@ -124,7 +150,7 @@ export default function VScroll() {
 
     const totalListHeight = scrollList?.listItems?.length! * itemHeight;
 
-    console.log(virtualItems)
+    console.log(isScrolling)
 
     if (isLoading) {
         return (
@@ -189,7 +215,7 @@ export default function VScroll() {
                                 }}
                             id={item.index}
                             key={item.index} 
-                            title={item.title} 
+                            title={isScrolling ? 'Scrolling...' : item.title} 
                         />) 
                     })
                   }
