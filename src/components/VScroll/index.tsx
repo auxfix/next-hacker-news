@@ -14,7 +14,7 @@ import Button from '../SimpleButton';
 const itemHeight = 62.5;
 const containerHeight = 600;
 const overscan = 2;
-const scrollTimout = 100;
+const scrollTimout = 300;
 
 function isNumeric(num: any){
     return !isNaN(num)
