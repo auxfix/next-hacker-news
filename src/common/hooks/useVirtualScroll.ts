@@ -1,8 +1,9 @@
-import { useLayoutEffect, useState, useEffect, } from "react";
+import { useLayoutEffect, useState, useEffect, useMemo } from "react";
 
 interface VirtualScrollParams {
     listHeight: number;
     elementHeight: number;
+    listLength: number;
     getContainer: () => React.RefObject<HTMLDivElement>;
 }
 
@@ -19,7 +20,8 @@ function useVirtualScroll(params: VirtualScrollParams) {
     const {
         listHeight,
         elementHeight,
-        getContainer
+        listLength,
+        getContainer,
     } = params;
 
     const [ isScrolling, setIsScrolling ] = useState(false);
@@ -84,7 +86,7 @@ function useVirtualScroll(params: VirtualScrollParams) {
         let endIndex = Math.ceil(rangeEnd / itemHeight) + 3;
 
         startIndex = Math.max(0, startIndex - overscan);
-        endIndex = Math.min(scrollList?.listItems?.length! - 1, endIndex + overscan);
+        endIndex = Math.min(listLength - 1, endIndex + overscan);
 
         let virtualItems = [];
 
@@ -96,7 +98,7 @@ function useVirtualScroll(params: VirtualScrollParams) {
         }
 
         return virtualItems;
-    }, [scrollTop, scrollList?.listItems?.length])
+    }, [scrollTop, listLength])
 
-    const totalListHeight = scrollList?.listItems?.length! * itemHeight;
+    const totalListHeight = listLength * itemHeight;
 }
