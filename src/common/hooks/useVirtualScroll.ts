@@ -1,9 +1,18 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, useEffect, } from "react";
 
 interface VirtualScrollParams {
     listHeight: number;
     elementHeight: number;
     getContainer: () => React.RefObject<HTMLDivElement>;
+}
+
+const itemHeight = 62.5;
+const containerHeight = 600;
+const overscan = 2;
+const scrollTimout = 300;
+
+function isNumeric(num: any){
+    return !isNaN(num)
 }
 
 function useVirtualScroll(params: VirtualScrollParams) {
@@ -21,18 +30,6 @@ function useVirtualScroll(params: VirtualScrollParams) {
         console.log('scrollRef.current:', scrollRef.current); // Debugging: Log the ref to ensure it's not undefined
     }, [scrollRef, scrollRef.current]);
 
-    const handleScroll = () => {
-        if (scrollRef.current && isNumeric(scrollTag)) {
-            const targetElement = scrollRef.current.querySelector(`#i${scrollTag}`);
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                console.error(`Element with ID ${scrollTag} not found.`);
-            }
-        } else {
-            console.error('scrollRef is undefined.');
-        }
-    };
 
     //-------------------------------------------
     // scroll block
@@ -53,7 +50,7 @@ function useVirtualScroll(params: VirtualScrollParams) {
         scrollElement.addEventListener('scroll', handleScroll);
 
         return () => scrollElement.removeEventListener('scroll', handleScroll);
-    },[scrollRef, scrollRef.current, isLoading])
+    },[scrollRef, scrollRef.current])
 
     useEffect(() => {
         const scrollElement = scrollRef.current;

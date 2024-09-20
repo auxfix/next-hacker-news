@@ -18,7 +18,7 @@ const scrollTimout = 300;
 
 function isNumeric(num: any){
     return !isNaN(num)
-  }
+}
 
 
 export default function VScroll() {
