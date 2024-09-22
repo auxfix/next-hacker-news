@@ -3,24 +3,19 @@ import { useLayoutEffect, useState, useEffect, useMemo } from "react";
 interface VirtualScrollParams {
     listHeight: number;
     elementHeight: number;
-    listLength: number;
+    listLength?: number;
+    overscan: number;
+    scrollTimout: number;
     getContainer: () => React.RefObject<HTMLDivElement>;
 }
 
-const itemHeight = 62.5;
-const containerHeight = 600;
-const overscan = 2;
-const scrollTimout = 300;
-
-function isNumeric(num: any){
-    return !isNaN(num)
-}
-
-function useVirtualScroll(params: VirtualScrollParams) {
+export function useVirtualScroll(params: VirtualScrollParams, deps: any[]): [{index: number, offset: number}[], number, boolean] {
     const {
         listHeight,
         elementHeight,
-        listLength,
+        listLength = 0,
+        overscan = 3,
+        scrollTimout = 200,
         getContainer,
     } = params;
 
@@ -52,7 +47,7 @@ function useVirtualScroll(params: VirtualScrollParams) {
         scrollElement.addEventListener('scroll', handleScroll);
 
         return () => scrollElement.removeEventListener('scroll', handleScroll);
-    },[scrollRef, scrollRef.current])
+    },[...deps])
 
     useEffect(() => {
         const scrollElement = scrollRef.current;
@@ -76,14 +71,14 @@ function useVirtualScroll(params: VirtualScrollParams) {
             setIsScrolling(false); 
             scrollElement.removeEventListener('scroll', handleScroll);
         }
-    },[])
+    },[...deps])
 
     const virtualItems = useMemo(() => {
         let rangeStart = scrollTop;
-        let rangeEnd = scrollTop + containerHeight;
+        let rangeEnd = scrollTop + listHeight;
         //console.log(rangeStart, rangeEnd, rangeStart / itemHeight, rangeEnd / itemHeight);
-        let startIndex = Math.floor(rangeStart / itemHeight);
-        let endIndex = Math.ceil(rangeEnd / itemHeight) + 3;
+        let startIndex = Math.floor(rangeStart / elementHeight);
+        let endIndex = Math.ceil(rangeEnd / elementHeight);
 
         startIndex = Math.max(0, startIndex - overscan);
         endIndex = Math.min(listLength - 1, endIndex + overscan);
@@ -93,12 +88,14 @@ function useVirtualScroll(params: VirtualScrollParams) {
         for(let i = startIndex; i <= endIndex; i++) {
             virtualItems.push({
                 index: i,
-                offset: i * itemHeight,
+                offset: i * elementHeight,
             })
         }
 
         return virtualItems;
     }, [scrollTop, listLength])
 
-    const totalListHeight = listLength * itemHeight;
+    const totalListHeight = listLength * elementHeight;
+
+    return [virtualItems, totalListHeight, isScrolling]
 }

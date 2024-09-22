@@ -9,12 +9,13 @@ import { useAppSelector, useAppStore } from '@/lib/redux/hooks';
 import { getListItemstCountSelector, setListItemsCount } from '@/lib/redux/features/news';
 import ScrollItem from '@/features/news/components/ListItem';
 import Button from '../SimpleButton';
+import { useVirtualScroll } from '@/common/hooks/useVirtualScroll';
 
 
 const itemHeight = 62.5;
 const containerHeight = 600;
 const overscan = 2;
-const scrollTimout = 300;
+const scrollTimout = 100;
 
 function isNumeric(num: any){
     return !isNaN(num)
@@ -26,7 +27,6 @@ export default function VScroll() {
     const store = useAppStore();
     const scrollItemsCount = useAppSelector(getListItemstCountSelector);
     const [ scrollTag, setScrollTag ] = useState('5');
-    const [ isScrolling, setIsScrolling ] = useState(false);
 
     const { data: scrollList, isRefetching, isLoading } = useQuery({ 
         queryKey: ['vscroll'], 
@@ -81,76 +81,14 @@ export default function VScroll() {
         }
     };
 
-    //-------------------------------------------
-    // scroll block
-    const [scrollTop, setScrollTop] = useState(0);
-
-    useLayoutEffect(() => {
-        const scrollElement = scrollRef.current;
-        
-        if(!scrollElement) { return; }
-
-        const handleScroll = () => {
-            const scrollTop = scrollElement.scrollTop;          
-            setScrollTop(scrollTop);
-        }
-
-        handleScroll();
-
-        scrollElement.addEventListener('scroll', handleScroll);
-
-        return () => scrollElement.removeEventListener('scroll', handleScroll);
-    },[scrollRef, scrollRef.current, isLoading])
-
-    useEffect(() => {
-        const scrollElement = scrollRef.current;
-        
-        if(!scrollElement) { return; }
-
-        let timoutId: any = null;
-        const handleScroll = () => {
-            setIsScrolling(true);
-            if(timoutId) { clearTimeout(timoutId); }
-            timoutId = setTimeout(() => {
-                setIsScrolling(false); 
-            }, scrollTimout)
-        }
-
-        handleScroll();
-
-        scrollElement.addEventListener('scroll', handleScroll);
-
-        return () => {
-            setIsScrolling(false); 
-            scrollElement.removeEventListener('scroll', handleScroll);
-        }
-    },[])
-
-    const virtualItems = useMemo(() => {
-        let rangeStart = scrollTop;
-        let rangeEnd = scrollTop + containerHeight;
-        //console.log(rangeStart, rangeEnd, rangeStart / itemHeight, rangeEnd / itemHeight);
-        let startIndex = Math.floor(rangeStart / itemHeight);
-        let endIndex = Math.ceil(rangeEnd / itemHeight) + 3;
-
-        startIndex = Math.max(0, startIndex - overscan);
-        endIndex = Math.min(scrollList?.listItems?.length! - 1, endIndex + overscan);
-
-        let virtualItems = [];
-
-        for(let i = startIndex; i <= endIndex; i++) {
-            virtualItems.push({
-                index: i,
-                offset: i * itemHeight,
-            })
-        }
-
-        return virtualItems;
-    }, [scrollTop, scrollList?.listItems?.length])
-
-    const totalListHeight = scrollList?.listItems?.length! * itemHeight;
-
-    console.log(isScrolling)
+    const [ virtualItems, totalListHeight, isScrolling ] = useVirtualScroll({
+        elementHeight: itemHeight,
+        getContainer: () => scrollRef,
+        listHeight: containerHeight, 
+        listLength: scrollList?.listItems?.length,
+        overscan: overscan,
+        scrollTimout: scrollTimout
+    },[scrollRef.current, scrollList])
 
     if (isLoading) {
         return (
@@ -167,7 +105,6 @@ export default function VScroll() {
 
     return (
         <div className='flex flex-col items-center justify-center'>
-            <p className='text-xl'>scroll top: {scrollTop}</p>
             <div className="rounded-xl shadow-xl flex items-center justify-around p-6 bg-gray-100 w-1/3 mt-6 min-w-[60rem]">
                 <section className='flex flex-col'>
                     <label className='text-xl'>List size:</label>
